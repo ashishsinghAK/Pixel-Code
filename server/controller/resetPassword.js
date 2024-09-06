@@ -1,5 +1,5 @@
 const User = require('../model/User');
-const MailSender = require('../Util/MailSender');
+const {MailSender} = require('../Util/MailSender');
 const bcrypt = require('bcrypt');
 
 
