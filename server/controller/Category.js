@@ -1,51 +1,93 @@
 const Category = require('../model/Category');
 
 
-//create tag handler function
-exports.createCategory = async(req,res) => {
-    try{
-        const {name,description} = req.body;
-        if(!name || !description){
+//create category handler function
+exports.createCategory = async (req, res) => {
+    try {
+
+        const { name, description } = req.body;
+        if (!name || !description) {
             return res.status(401).json({
-                success:false,
-                message:"All fields are required"
+                success: false,
+                message: "All fields are required"
             })
         };
 
         //create entry in db
         const categoryDetails = await Category.create({
-            name:name,
-            description:description
+            name: name,
+            description: description
         });
         console.log(categoryDetails);
         //return response
         return res.status(200).json({
-            success:false,
-            message:"Category created successfully"
+            success: false,
+            message: "Category created successfully"
         })
-    }catch(error){
+    } catch (error) {
         console.log(error)
         return res.json({
-            success:false,
-            message:"Error while creating categories",
+            success: false,
+            message: "Error while creating categories",
         })
     }
 }
 
-//get all tags
-exports.showAllcategory = async(req,res) => {
-    try{
-        const showAllcategory = await Category.find({},{name:true,description:true});
+//get all categories
+exports.showAllcategory = async (req, res) => {
+    try {
+        const showAllcategory = await Category.find({}, { name: true, description: true });
         console.log(showAllcategory);
         return res.status(200).json({
-            success:true,
-            message:"All categories are fetched successfully"
+            success: true,
+            message: "All categories are fetched successfully"
         })
-    }catch(error){
+    } catch (error) {
         console.log(error.message);
         return res.json({
-            success:false,
-            message:"Error while fetching all categories",
+            success: false,
+            message: "Error while fetching all categories",
         })
     }
 }
+
+// category page detail
+
+exports.getCategoryDetail = async (req, res) => {
+    try {
+        //get category id 
+        const { categoryId } = req.body;
+        //get courses from specified categoryId
+        const result = await Category.findById(categoryId)
+            .populate("course").exec();
+        //validation
+        if (!result) {
+            return res.status(404).json({
+                success: false,
+                message: "Data not found for this category"
+            })
+        }
+
+        //get courses from different category
+        const differentCategory = await Category.find({
+            _id: { $ne: categoryId }, // ne means not equal
+        }).populate("course").exec();
+
+        // i don't want to show top selling course
+
+        return res.status(200).json({
+            success: true,
+            data: {
+                result,
+                differentCategory,
+            }
+        })
+
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({
+            success: false,
+            message: "Error encounter while fetching category details",
+        })
+    }
+} 

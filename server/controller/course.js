@@ -115,3 +115,47 @@ exports.showAllCourses = async (req, res) => {
     }
 }
 
+//get courseDetail
+
+exports.getCourseDetail = async (req, res) => {
+    try {
+        const { courseId } = req.body;
+        //find course detail
+        const courseDetail = await Course.find(
+            { _id: courseId }
+        ).populate({
+            path: "instructor",
+            populate: {
+                path: "additionalDetails"
+            }
+        }).populate("category")
+            .populate("ratingAndReviews")
+            .populate({
+                path: "courseContent",
+                populate: {
+                    path: "subSection"
+                }
+            }).exec();
+
+        //validation
+        if (!courseDetail) {
+            return res.status(400).json({
+                success: false,
+                message: `Cannot find the course with id ${courseId}`,
+            })
+        };
+
+        //return response
+        return res.status(200).json({
+            success: true,
+            message: "Course detail fetched successfully",
+            data: courseDetail
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Error occur while fetching course detail",
+        })
+    }
+}
+
