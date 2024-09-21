@@ -175,7 +175,7 @@ exports.Login = async (req, res) => {
                 id: user._id,
                 accountType: user.accountType,
             };
-            const token = jwt.sign(payload, JWT_SECRET, {
+            const token = jwt.sign(payload, process.env.JWT_SECRET, {
                 expiresIn: "1h"
             });
             user.token = token;
