@@ -1,4 +1,4 @@
-const { default: mongoose } = require('mongoose');
+
 const { instance } = require('../config/razorpay');
 const Course = require('../model/Course');
 const User = require('../model/User');

@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const cookie = require('cookie-parser');
+const Profile = require('../model/Profile');
 
 //sendOTP
 exports.sendOTP = async (req, res) => {
@@ -69,7 +70,7 @@ exports.Signup = async (req, res) => {
     try {
         //data fetch from req body
         const { firstName, lastName, email, password, confirmPassword, accountType, otp } = req.body;
-
+        console.log(otp);
         //validation
         if (!firstName || !lastName || !email || !password || !confirmPassword || !otp) {
             return res.status(403).json({
@@ -98,13 +99,13 @@ exports.Signup = async (req, res) => {
         const recentOtp = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
         console.log(recentOtp);
         //validate otp
-        if (recentOtp.length == 0) {
+        if (recentOtp.length === 0) {
             return res.status(400).json({
                 success: false,
                 message: "OTP not found"
             })
         }
-        else if (otp != recentOtp.otp) {
+        else if (otp !== recentOtp[0].otp) {
             //Invalid otp
             return res.status(400).json({
                 success: false,
@@ -125,7 +126,7 @@ exports.Signup = async (req, res) => {
         const user = await User.create({
             firstName, lastName, email,
             password: hashedPassword, accountType,
-            additionalDetails: profileDetails._id,
+            additionalDetails: profileDetails._id,otp,
             image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
         })
 
