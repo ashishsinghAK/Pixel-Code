@@ -1,6 +1,6 @@
 const SubSection = require('../model/SubSection');
 const Section = require('../model/Section');
-const { uploadImage } = require('../Util/imageUploader');
+const { uploadImage,uploadVideo } = require('../Util/imageUploader');
 require('dotenv').config();
 
 //create subSection
@@ -9,10 +9,9 @@ exports.createSubSection = async (req, res) => {
     try {
         //fetch data
         const { title, timeDuration, description, sectionID } = req.body;
-        const video = req.files.videoFile;
-
+        const videoUrl = req.files.videoUrl;
         //validation
-        if (!video || !title || !timeDuration || !description || !sectionID) {
+        if (!videoUrl || !title || !timeDuration || !description || !sectionID) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required"
@@ -20,7 +19,10 @@ exports.createSubSection = async (req, res) => {
         }
 
         //video upload to cludinary
-        const uploadDetail = await uploadImage(video, process.env.FOLDER_NAME);
+        const uploadDetail = await uploadVideo(videoUrl, process.env.FOLDER_NAME);
+
+        console.log( uploadDetail.secure_url);
+        
         //create a subsection
         const subSectionDetail = await SubSection.create({
             title: title,
@@ -44,6 +46,7 @@ exports.createSubSection = async (req, res) => {
             updatedSection
         })
     } catch (error) {
+        console.log(error);
         return res.status(500).json({
             success: false,
             message: "Error occur while creating subsection"

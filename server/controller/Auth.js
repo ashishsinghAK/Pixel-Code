@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const cookie = require('cookie-parser');
 const Profile = require('../model/Profile');
+const MailSender = require('../Util/MailSender');
 
 //sendOTP
 exports.sendOTP = async (req, res) => {
@@ -126,7 +127,7 @@ exports.Signup = async (req, res) => {
         const user = await User.create({
             firstName, lastName, email,
             password: hashedPassword, accountType,
-            additionalDetails: profileDetails._id,otp,
+            additionalDetails: profileDetails._id, otp,
             image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
         })
 
@@ -211,10 +212,58 @@ exports.Login = async (req, res) => {
 // changePassword
 
 exports.ChangePassword = async (req, res) => {
-    //get data from req body
-    //get oldpass,newpass,confirm newpass
-    //validation
-    //update pass in db
-    //send mail pass update
-    //return respose
+    try {
+        //get data from req body
+        const id = req.user.id;
+
+        //get oldpass,newpass,confirm newpass
+        const { email, oldPassword, newPassword, confirmPassword } = req.body;
+
+        //validation
+        if (newPassword !== confirmPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "New password and confirm password do not match",
+            });
+        }
+
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        //update pass in db
+        const isPasswordMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isPasswordMatch) {
+            return res.status(400).json({
+                success: false,
+                message: "Old password is incorrect",
+            });
+        }
+
+        user.password = await bcrypt.hash(newPassword, 10);
+        await user.save();
+
+        //send mail pass update
+        try {
+            const mailResponse = await MailSender(email, "Verification email from Pixel-Code", "Your password changed successfuly");
+            console.log("Email sent successfully", mailResponse);
+        } catch (error) {
+            console.log("error occur while sending mail", error);
+            throw error;
+        }
+        //return respose
+        return res.status(200).json({
+            success: true,
+            message: "Password updated successfully"
+        })
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            message: "Password updation failed"
+        })
+    }
 }

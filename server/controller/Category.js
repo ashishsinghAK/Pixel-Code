@@ -21,7 +21,7 @@ exports.createCategory = async (req, res) => {
         console.log(categoryDetails);
         //return response
         return res.status(200).json({
-            success: false,
+            success: true,
             message: "Category created successfully"
         })
     } catch (error) {
@@ -40,7 +40,8 @@ exports.showAllcategory = async (req, res) => {
         console.log(showAllcategory);
         return res.status(200).json({
             success: true,
-            message: "All categories are fetched successfully"
+            message: "All categories are fetched successfully",
+            showAllcategory
         })
     } catch (error) {
         console.log(error.message);
@@ -57,10 +58,12 @@ exports.getCategoryDetail = async (req, res) => {
     try {
         //get category id 
         const { categoryId } = req.body;
+        // console.log(categoryId);
         //get courses from specified categoryId
         const result = await Category.findById(categoryId)
             .populate("course").exec();
         //validation
+        // console.log(result);
         if (!result) {
             return res.status(404).json({
                 success: false,

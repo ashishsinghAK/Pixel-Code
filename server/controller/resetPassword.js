@@ -1,6 +1,7 @@
 const User = require('../model/User');
-const {MailSender} = require('../Util/MailSender');
+const MailSender = require('../Util/MailSender');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
 
 //reset password token
@@ -62,9 +63,9 @@ exports.resetPasswordToken = async (req, res) => {
 exports.resetPassword = async (req, res) => {
     try {
         //data fetch
-        const { password, confirmPaddword, token } = req.body;
+        const { password, confirmPassword, token } = req.body;
         // validation
-        if (password !== confirmPaddword) {
+        if (password !== confirmPassword) {
             return res.json({
                 success: false,
                 message: "Both the fields need to be same"
@@ -97,7 +98,7 @@ exports.resetPassword = async (req, res) => {
         );
 
         return res.status(200).json({
-            success: false,
+            success: true,
             message: "Password Reset successfully"
         })
 

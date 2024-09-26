@@ -9,12 +9,12 @@ require('dotenv').config();
 exports.createCourse = async (req, res) => {
     try {
         //fetch data
-        const { courseName, courseDescription, whatYouWillLearn, price, category } = req.body;
+        const { courseName, courseDescription, whatYouWillLearn, price, categoryId,tag} = req.body;
         //get thumbnail
         const thumbnail = req.files.thumbNail;
 
         //validation
-        if (!courseName || !courseDescription || !whatYouWillLearn || !price || !category || !thumbnail) {
+        if (!courseName || !courseDescription || !whatYouWillLearn || !price || !categoryId || !thumbnail) {
             return res.status(401).json({
                 success: false,
                 message: "All fields are mandatory"
@@ -33,7 +33,7 @@ exports.createCourse = async (req, res) => {
         }
 
         //check for tag is valid or not
-        const categoryDetail = await Category.findById(tag);
+        const categoryDetail = await Category.findById(categoryId);
         if (!categoryDetail) {
             return res.status(401).json({
                 success: false,
@@ -41,8 +41,21 @@ exports.createCourse = async (req, res) => {
             })
         };
 
-        //upload to clodinary
+        //upload to cloudinary
         const thumbnailImage = await uploadImage(thumbnail, process.env.FOLDER_NAME);
+
+        //check if the course is already created or not
+        const existingCourse = await Course.findOne({
+            courseName:courseName,
+            instructor:instructorDetail._id
+        });
+
+        if(existingCourse){
+            return res.status(400).json({
+                success:false,
+                message:"This course is alredy created"
+            })
+        }
 
         //create entry for new course
         const newCourse = await Course.create({
@@ -54,7 +67,8 @@ exports.createCourse = async (req, res) => {
             price,
             //here tag ki object id insert ki gyi hai
             category: categoryDetail._id,
-            thumbNail: thumbnailImage.secure_url
+            thumbNail: thumbnailImage.secure_url,
+            tag
             // or
             // thumbnail:thumbnailImage.secure_url
         })
@@ -74,7 +88,8 @@ exports.createCourse = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "New Course is created"
+            message: "New Course is created",
+            newCourse
         })
 
     } catch (error) {
@@ -129,7 +144,7 @@ exports.getCourseDetail = async (req, res) => {
                 path: "additionalDetails"
             }
         }).populate("category")
-            .populate("ratingAndReviews")
+            //.populate("ratingAndReviews")
             .populate({
                 path: "courseContent",
                 populate: {

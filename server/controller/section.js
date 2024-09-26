@@ -7,18 +7,28 @@ exports.createSection = async (req, res) => {
     try {
         // data fetch
         // here courseId is present because section is created after course is crceated.
-        const { sectionName, courseID } = req.body;
+        const { sectionName, courseId } = req.body;
         //data validation
-        if (!sectionName || !courseID) {
+        if (!sectionName || !courseId) {
             return res.status(401).json({
                 success: false,
                 message: "All fields are required"
             })
         };
+
+        const existingSection = await Section.findOne({
+            sectionName:sectionName,
+        })
+        if(existingSection){
+            return res.status(400).json({
+                success:false,
+                message:"There is already a Section Present for this Section_Name,try with another name"
+            })
+        }
         //create section
         const newSection = await Section.create({ sectionName });
         //update course with section objectID
-        const updatedCourse = await Course.findByIdAndUpdate(courseID,
+        const updatedCourse = await Course.findByIdAndUpdate(courseId,
             {
                 $push: {
                     //here object id of newSection is passed
