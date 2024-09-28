@@ -1,6 +1,6 @@
 const SubSection = require('../model/SubSection');
 const Section = require('../model/Section');
-const { uploadImage,uploadVideo } = require('../Util/imageUploader');
+const { uploadImage, uploadVideo } = require('../Util/imageUploader');
 require('dotenv').config();
 
 //create subSection
@@ -18,11 +18,22 @@ exports.createSubSection = async (req, res) => {
             })
         }
 
+        const existingSubSection = await SubSection.findOne({
+            description: description,
+            title: title
+        })
+        if (existingSubSection) {
+            return res.status(400).json({
+                success: false,
+                message: "This Sub_Section is already created"
+            })
+        }
+
         //video upload to cludinary
         const uploadDetail = await uploadVideo(videoUrl, process.env.FOLDER_NAME);
 
-        console.log( uploadDetail.secure_url);
-        
+
+
         //create a subsection
         const subSectionDetail = await SubSection.create({
             title: title,
@@ -87,8 +98,14 @@ exports.updateSubSection = async (req, res) => {
 
 exports.deleteSubSection = async (req, res) => {
     try {
-        const { SubSectionID } = req.params;
+        const { SubSectionID, sectionID } = req.body;
         await SubSection.findByIdAndDelete(SubSectionID);
+
+        //is sub section ko section me se bhi to delete kro
+        await Section.findByIdAndUpdate(sectionID, {
+            $pull: { subSection: SubSectionID }
+        })
+
         return res.status(200).json({
             success: true,
             message: "SubSection deleted successfully"

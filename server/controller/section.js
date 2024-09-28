@@ -17,12 +17,12 @@ exports.createSection = async (req, res) => {
         };
 
         const existingSection = await Section.findOne({
-            sectionName:sectionName,
+            sectionName: sectionName,
         })
-        if(existingSection){
+        if (existingSection) {
             return res.status(400).json({
-                success:false,
-                message:"There is already a Section Present for this Section_Name,try with another name"
+                success: false,
+                message: "There is already a Section Present for this Section_Name,try with another name"
             })
         }
         //create section
@@ -86,15 +86,19 @@ exports.updateSection = async (req, res) => {
 
 //delete section
 
-exports.deleteSection = async(req,res) => {
-    try{
-        const {sectionID} = req.params;
+exports.deleteSection = async (req, res) => {
+    try {
+        const { sectionID, courseId } = req.body;
         await Section.findByIdAndDelete(sectionID);
-        return res.status(200).json({
-            success:true,
-            message:"Section deleted successfully"
+        //course ko bhi to update kro.
+        await Course.findByIdAndUpdate(courseId, {
+            $pull: { courseContent: sectionID }
         })
-    }catch(error){
+        return res.status(200).json({
+            success: true,
+            message: "Section deleted successfully"
+        })
+    } catch (error) {
         console.log(error);
         return res.status(500).json({
             success: false,

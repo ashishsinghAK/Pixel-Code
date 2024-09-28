@@ -20,21 +20,21 @@ const { auth, isInstructor, isAdmin, isStudent } = require('../middleware/authMi
 //course can only be created by instructor
 router.post('/createCourse', auth, isInstructor, createCourse);
 
-router.post('/showAllCourse', showAllCourses);
-router.get('/getCourseDetail', getCourseDetail);
+router.get('/showAllCourse', auth,showAllCourses);
+router.get('/getCourseDetail', auth,getCourseDetail);
 
 //add section to course
 router.post('/addSection', auth, isInstructor, createSection);
 //update the section
 router.post('/updateSection', auth, isInstructor, updateSection);
 //delete the section
-router.post('/deleteSection', auth, isInstructor, deleteSection);
+router.delete('/deleteSection', auth, isInstructor, deleteSection);
 //add sub section
 router.post('/addSubSection', auth, isInstructor, createSubSection);
 //update sub section
 router.post('/updateSubSection', auth, isInstructor, updateSubSection);
 //delete sub section
-router.post('/deleteSubSection', auth, isInstructor, deleteSubSection);
+router.delete('/deleteSubSection', auth, isInstructor, deleteSubSection);
 
 router.post('/createCategory', auth, isAdmin, createCategory);
 router.get('/showAllCategory', auth, isAdmin, showAllcategory);
@@ -43,8 +43,8 @@ router.get('/getCategoryDetail', auth, isAdmin, getCategoryDetail);
 
 /* Rating and Reviews*/
 router.post('/createRating', auth, isStudent, createRating);
-router.get('/getAverageRating', getAvgRating);
-router.get('/getReview', getAllRating);
+router.get('/getAverageRating',auth, getAvgRating);
+router.get('/getAllRating',auth, getAllRating);
 
 
 module.exports = router;

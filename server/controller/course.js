@@ -111,7 +111,10 @@ exports.showAllCourses = async (req, res) => {
             thumbNail: true,
             instructor: true,
             ratingAndReviews: true,
-            studentsEnrolled: true
+            studentsEnrolled: true,
+            courseDescription:true,
+            whatYouWillLearn:true,
+            courseContent:true
         }).populate("instructor").exec();
 
         return res.status(200).json({
