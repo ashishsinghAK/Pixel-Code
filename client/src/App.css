@@ -1,0 +1,17 @@
+html,body{
+    overflow-x:hidden;
+    margin: 0;
+    padding:0;
+}
+
+.homepage_bg{
+    background-image: url("./Media/bg_home.jpg");
+    border-radius: 0 0 2em 2em;
+}
+
+.btn{
+    height:2.5em;
+    border-radius:.5em;
+    text-align:justify;
+    color:white
+}
