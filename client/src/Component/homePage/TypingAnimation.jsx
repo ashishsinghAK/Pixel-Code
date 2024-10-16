@@ -15,6 +15,7 @@ export const TypingAnimation = ({ codeblock }) => {
         <p>8</p>
         <p>9</p>
         <p>10</p>
+        <p>11</p>
       </div>
 
       <div className=' flex flex-row gap-2 font-bold font-mono text-slate-300'>

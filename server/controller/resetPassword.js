@@ -42,7 +42,7 @@ exports.resetPasswordToken = async (req, res) => {
             resetPasswordExpires: Date.now() + 5 * 60 * 1000
         }, { new: true });
         //create url for password reset
-        const url = `https://localhost:5173/update-password/${token}`;
+        const url = `http://localhost:5173/update-password/${token}`;
         //send mail containing the url
         await MailSender(email, "Password Reset Link:", `Your Password Reset Link is: ${url}`);
         return res.json({
