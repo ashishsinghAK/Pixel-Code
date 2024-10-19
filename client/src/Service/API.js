@@ -8,3 +8,9 @@ export const resetPassword = {
     TOKEN_API : BASE_URL+"/profile/resetPasswordToken",
     RESET_API: BASE_URL+"/profile/resetPassword",
 }
+
+export const authorisation = {
+    SIGNUP_API:BASE_URL+"/auth/signup",
+    LOGIN_API:BASE_URL+"/auth/login",
+    SEND_OTP:BASE_URL+"/auth/sendotp"
+}

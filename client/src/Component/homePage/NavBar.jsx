@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { useSelector } from "react-redux"
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux"
 import { FaCartPlus } from "react-icons/fa6";
-import profileDropdown from '../Auth/profileDropdown';
+import ProfileDropdown from '../Auth/profileDropdown';
 import { ApiConnector } from "../../Service/ApiConnector";
 import { categories } from "../../Service/API";
 import { IoIosArrowDropdown } from "react-icons/io";
+import { logout } from '../../Service/authAPI';
 
 
 
@@ -27,7 +28,13 @@ const NavBar = () => {
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
   const { cart } = useSelector((state) => state.cart);
-  const [subLink, setSubLink] = useState([])
+  // const [subLink, setSubLink] = useState([])
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleButton = (e) => {
+    dispatch(logout(navigate))
+  }
 
   // const fetchSubLink = async () => {
   //   try {
@@ -89,7 +96,7 @@ const NavBar = () => {
         {/* signin and signup section */}
 
         <div className='flex gap-4 items-center'>
-          {
+          {/* {
             user && user?.accountType != "Instructor" && (
               <Link to="/dashboard/cart" className='relative'>
                 <FaCartPlus />
@@ -100,7 +107,7 @@ const NavBar = () => {
                 }
               </Link>
             )
-          }
+          } */}
 
           {
             token === null && (
@@ -119,7 +126,12 @@ const NavBar = () => {
           }
 
           {
-            token !== null && <profileDropdown />
+            token && (<>
+             <ProfileDropdown />
+             <button onClick={handleButton}>
+              Logout
+             </button>
+            </>)
           }
 
         </div>
@@ -131,4 +143,4 @@ const NavBar = () => {
   )
 }
 
-export default NavBar
+export default NavBar;

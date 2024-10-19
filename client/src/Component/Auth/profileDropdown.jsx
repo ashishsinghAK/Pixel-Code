@@ -1,11 +1,9 @@
 import React from 'react'
 
-export const profileDropdown = () => {
+const ProfileDropdown = () => {
   return (
-    <div>
-        
-    </div>
+    <div>Profile</div>
   )
 }
 
-export default profileDropdown;
+export default ProfileDropdown

@@ -71,7 +71,7 @@ exports.Signup = async (req, res) => {
     try {
         //data fetch from req body
         const { firstName, lastName, email, password, confirmPassword, accountType, otp } = req.body;
-        console.log(otp);
+       
         //validation
         if (!firstName || !lastName || !email || !password || !confirmPassword || !otp) {
             return res.status(403).json({
