@@ -14,3 +14,7 @@ export const authorisation = {
     LOGIN_API:BASE_URL+"/auth/login",
     SEND_OTP:BASE_URL+"/auth/sendotp"
 }
+
+export const contactUsData = {
+    CONTACT_US_API:BASE_URL+""
+}

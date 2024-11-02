@@ -103,7 +103,7 @@ export function getPasswordResetToken(email, setEmailSent) {
         dispatch(setLoading(true))
         try {
             const response = await ApiConnector("POST", resetPassword.TOKEN_API, { email });
-            console.log("res is", response);
+            // console.log("res is", response);
             if (!response.data.success) {
                 throw new Error(response.data.message);
             }
@@ -128,7 +128,7 @@ export function PasswordReset(password, confirmPassword, token) {
             const response = await ApiConnector("POST", resetPassword.RESET_API, {
                 password, confirmPassword, token
             })
-            console.log('password reset response', response);
+            // console.log('password reset response', response);
             if (!response.data.success) {
                 throw new Error(response.data.message)
             }

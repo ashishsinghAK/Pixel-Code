@@ -9,6 +9,7 @@ import NavBar from "./Component/homePage/NavBar";
 import ForgotPassword from "./Page/ForgotPassword";
 import UpdatePassword from "./Page/UpdatePassword";
 import VerifyEmail from "./Page/VerifyEmail";
+import About from "./Page/About";
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Route path='/forgot-password' element={<ForgotPassword/>}/>
         <Route path='update-password/:id' element={<UpdatePassword/>}/>
         <Route path='/verify-email' element={<VerifyEmail/>}/>
+        <Route path="/about" element={<About/>}/>
       </Routes>
     </div>
 
