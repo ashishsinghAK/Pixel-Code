@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux"
 import { FaCartPlus } from "react-icons/fa6";
-import ProfileDropdown from '../Auth/profileDropdown';
+import ProfileDropdown from "../Auth/ProfileDropdown"
 import { ApiConnector } from "../../Service/ApiConnector";
 import { categories } from "../../Service/API";
 import { IoIosArrowDropdown } from "react-icons/io";
@@ -128,7 +128,7 @@ const NavBar = () => {
           {
             token && (<>
              <ProfileDropdown />
-             <button onClick={handleButton}>
+             <button onClick={handleButton} className='border p-2 rounded-md'>
               Logout
              </button>
             </>)
