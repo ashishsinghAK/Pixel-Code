@@ -6,6 +6,7 @@ import { FaArrowRight, FaBars, FaTimes } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { logout } from "../../Service/authAPI";
 import Modal from '../Common/Modal';
+import { IoSettingsOutline } from "react-icons/io5";
 
 function Sidebar() {
   const { user, loading: profileLoading } = useSelector((state) => state.profile);
@@ -70,7 +71,7 @@ function Sidebar() {
 
           <hr className='border-gray-700 my-4' />
 
-          <div className='flex justify-center gap-2 items-center'>
+          <div className='flex gap-2 items-center'>
             <button 
               onClick={() => setModalData({
                 text1: "Are you sure?",
@@ -85,6 +86,12 @@ function Sidebar() {
               Logout
             </button>
             <FaArrowRight className='text-white' />
+          </div>
+
+          <div className='flex items-center gap-2'>
+          <IoSettingsOutline />
+          <button onClick={() => {navigate("/dashboard/setting")}}>Setting</button>
+          <FaArrowRight className='text-white' />
           </div>
         </div>
       </div>

@@ -26,7 +26,6 @@ const SignUp = () => {
     const handleAccount = (type) => {
         dispatch(setSignUpData({...signupData,accountType:type}))
     }
-    console.log('accountType',accountType);
     
     const changeHandler = (event) => {
       dispatch(setSignUpData({...signupData,[event.target.id]:event.target.value}))  

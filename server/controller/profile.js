@@ -8,7 +8,7 @@ exports.updateProfile = async (req, res) => {
         const id = req.user.id;
 
         //validation
-        if (!contactNumber || !gender || !id) {
+        if (!id) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required"
@@ -16,8 +16,8 @@ exports.updateProfile = async (req, res) => {
         };
 
         //find profile
-        const userDetail = await User.findById(id);
-        const profileId = userDetail.additionalDetails;
+        const user = await User.findById(id);
+        const profileId = user.additionalDetails;
         const profileDetail = await Profile.findById(profileId);
 
         //update profile

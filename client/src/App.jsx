@@ -11,6 +11,7 @@ import UpdatePassword from "./Page/UpdatePassword";
 import VerifyEmail from "./Page/VerifyEmail";
 import About from "./Page/About";
 import Dashboard from "./Page/Dashboard";
+import Setting from "./Component/DashComponent/Setting";
 
 function App() {
 
@@ -25,7 +26,8 @@ function App() {
         <Route path='update-password/:id' element={<UpdatePassword/>}/>
         <Route path='/verify-email' element={<VerifyEmail/>}/>
         <Route path="/about" element={<About/>}/>
-        <Route path="/dashboard" element={<Dashboard/>}/>
+        <Route path="/dashboard/*" element={<Dashboard/>}/>
+        
       </Routes>
     </div>
 

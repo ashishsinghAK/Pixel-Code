@@ -9,12 +9,13 @@ const VerifyEmail = () => {
     const [otp, setOtp] = useState("")
     const dispatch = useDispatch();
     const navigate = useNavigate()
+    
 
     useEffect(() => {
         if (!signupData) {
             navigate("/signup")
         }
-    }, [])
+    }, [signupData, navigate])
 
     const submitHandler = (e) => {
         e.preventDefault();

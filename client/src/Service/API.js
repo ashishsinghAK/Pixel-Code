@@ -18,3 +18,8 @@ export const authorisation = {
 export const contactUsData = {
     CONTACT_US_API:BASE_URL+""
 }
+
+export const dashboard = {
+    SETTING_API:BASE_URL+"/profile/updateProfile",
+    DELETE_API:BASE_URL+"/profile/deleteProfile",
+}
