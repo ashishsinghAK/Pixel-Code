@@ -23,3 +23,7 @@ export const dashboard = {
     SETTING_API:BASE_URL+"/profile/updateProfile",
     DELETE_API:BASE_URL+"/profile/deleteProfile",
 }
+
+export const CourseDetail = {
+    GET_ENROLLED_COURSES:BASE_URL+"/course/getEnrolledCourse"
+}

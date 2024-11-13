@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     user:localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
     loading:false,
-    detail:null,
+    detail:localStorage.getItem('detail') ? JSON.parse(localStorage.getItem('detail')) : null,
 }
 
 const profileSlice = createSlice({

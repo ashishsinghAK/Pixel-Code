@@ -177,14 +177,14 @@ exports.Login = async (req, res) => {
                 accountType: user.accountType,
             };
             const token = jwt.sign(payload, process.env.JWT_SECRET, {
-                expiresIn: "1h"
+                expiresIn: "30d"
             });
             user.token = token;
             user.password = undefined;
 
             //create cookie and send response
             const options = {
-                expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+                expires: new Date("9999-12-31"),
                 httpOnly: true,
             }
             return res.cookie("token", token, options).status(200).json({

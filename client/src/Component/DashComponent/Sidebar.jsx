@@ -57,7 +57,7 @@ function Sidebar() {
           lg:translate-x-0 lg:w-60 w-[75%] sm:w-[50%] z-20`}>
         
         <div className='flex flex-col gap-5 font-bold h-full'>
-          {sidebarLinks.map((link) => {
+          {sidebarLinks.map((link,index) => {
             if (link.type && user?.accountType !== link.type) return null;
 
             const isActive = selectedLink === link.id;

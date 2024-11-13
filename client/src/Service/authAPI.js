@@ -167,8 +167,9 @@ export function UpdateDetail(dateOfBirth, about, contactNumber, gender,token, na
                 throw new Error(response.data.message);
             }
 
-            const {profileDetail} = response.data;
+            const {profileDetail} = response.data;      
             dispatch(setDetail(profileDetail))
+            localStorage.setItem('detail',JSON.stringify(profileDetail))
             toast.success("Profile updation successful");
             navigate("/dashboard");
 

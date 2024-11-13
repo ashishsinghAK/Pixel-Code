@@ -5,6 +5,8 @@ import MyProfile from '../Component/DashComponent/MyProfile';
 import { toast } from "react-hot-toast"
 import Setting from '../Component/DashComponent/Setting';
 import { Route, Routes } from 'react-router-dom'
+import EnrolledCourses from '../Component/DashComponent/EnrolledCourses';
+import WishList from '../Component/DashComponent/WishList';
 
 function Dashboard() {
 
@@ -40,6 +42,8 @@ function Dashboard() {
                 <Routes>
                     <Route path="/" element={<MyProfile />} />
                     <Route path="/setting" element={<Setting />} />
+                    <Route path='/enrolled-courses' element={<EnrolledCourses/>}/>
+                    <Route path='/My-Wishlist' element={<WishList/>}/>
                 </Routes>
             </div>
         </div>

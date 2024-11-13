@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 //course controller
-const { createCourse, showAllCourses, getCourseDetail } = require('../controller/course');
+const { createCourse, showAllCourses, getCourseDetail,getEnrolledCourses } = require('../controller/course');
 //category controller
 const { createCategory, showAllcategory, getCategoryDetail } = require('../controller/category');
 //section controller
@@ -22,6 +22,7 @@ router.post('/createCourse', auth, isInstructor, createCourse);
 
 router.get('/showAllCourse', auth,showAllCourses);
 router.get('/getCourseDetail', auth,getCourseDetail);
+router.get('/getEnrolledCourse',auth,getEnrolledCourses);
 
 //add section to course
 router.post('/addSection', auth, isInstructor, createSection);

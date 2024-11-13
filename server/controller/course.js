@@ -177,3 +177,27 @@ exports.getCourseDetail = async (req, res) => {
     }
 }
 
+
+exports.getEnrolledCourses = async(req,res) => {
+    try{
+        const userId = req.user.id;
+        const userDetail = await User.findOne({_id:userId}).populate("courses").exec();
+        if(!userDetail){
+            return res.status(400).json({
+                success:false,
+                message:`Could not find user with ${userId}`
+            })
+        }
+
+        return res.status(200).json({
+            success:true,
+            data:userDetail.courses
+        })
+
+    }catch(error){
+        return res.status(500).json({
+            success:false,
+            message:error.message
+        })
+    }
+}
