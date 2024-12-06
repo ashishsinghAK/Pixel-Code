@@ -1,5 +1,6 @@
 const Section = require('../model/Section');
 const Course = require('../model/Course');
+const SubSection = require('../model/SubSection');
 
 //create section
 
@@ -19,10 +20,27 @@ exports.createSection = async (req, res) => {
         const existingSection = await Section.findOne({
             sectionName: sectionName,
         })
-        if (existingSection) {
+        // if (existingSection) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: "There is already a Section Present for this Section_Name,try with another name"
+        //     })
+        // }
+        const course = await Course.findById(courseId);
+        if (!course) {
             return res.status(400).json({
                 success: false,
-                message: "There is already a Section Present for this Section_Name,try with another name"
+                message: "Course not found"
+            })
+        }
+
+        const duplicateCourse = course.courseContent.some(
+            (sectionID) => sectionID.toString() === existingSection?._id?.toString()
+        )
+        if (duplicateCourse) {
+            return res.status(400).json({
+                success: false,
+                message: "Section with this name already exist"
             })
         }
         //create section
@@ -35,7 +53,12 @@ exports.createSection = async (req, res) => {
                     courseContent: newSection._id,
                 },
             },
-            { new: true });
+            { new: true }).populate({
+                path: "courseContent",
+                populate:{
+                    path:"subSection"
+                }
+            });
 
         // return respouse
         return res.status(200).json({
@@ -73,7 +96,7 @@ exports.updateSection = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: "Section updated successfully",
-            //updatedSection
+            updatedSection
         })
     } catch (error) {
         console.log(error);
@@ -89,14 +112,36 @@ exports.updateSection = async (req, res) => {
 exports.deleteSection = async (req, res) => {
     try {
         const { sectionID, courseId } = req.body;
+        
+        if (!courseId && !sectionID) {
+            return res.status(400).json({
+                success: false,
+                message: "Section and Course is required"
+            })
+        }
+        const pulledCourse = await Course.findByIdAndUpdate(courseId,
+            {
+                $pull: { courseContent: sectionID }
+            },
+            { new: true })
+
+
+        const section = await Section.findById(sectionID)
+        //delete sub sections also
+        await SubSection.deleteMany({ _id: { $in: section.subSection } })
+
         await Section.findByIdAndDelete(sectionID);
-        //course ko bhi to update kro.
-        await Course.findByIdAndUpdate(courseId, {
-            $pull: { courseContent: sectionID }
-        })
+        const updatedCourse = await Course.findById(courseId).populate({
+            path: "courseContent",
+            populate: {
+                path: "subSection"
+            }
+        });
+
         return res.status(200).json({
             success: true,
-            message: "Section deleted successfully"
+            message: "Section deleted successfully",
+            updatedCourse
         })
     } catch (error) {
         console.log(error);

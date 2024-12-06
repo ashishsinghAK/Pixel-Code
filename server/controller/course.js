@@ -9,8 +9,8 @@ require('dotenv').config();
 exports.createCourse = async (req, res) => {
     try {
         //fetch data
-        const { courseName, courseDescription, whatYouWillLearn, price, categoryId,tag} = req.body;
-        //get thumbnail
+        const { courseName, courseDescription, whatYouWillLearn, price, categoryId, tag } = req.body;
+        //get thumbnail 
         const thumbnail = req.files.thumbNail;
 
         //validation
@@ -46,14 +46,14 @@ exports.createCourse = async (req, res) => {
 
         //check if the course is already created or not
         const existingCourse = await Course.findOne({
-            courseName:courseName,
-            instructor:instructorDetail._id
+            courseName: courseName,
+            instructor: instructorDetail._id
         });
 
-        if(existingCourse){
+        if (existingCourse) {
             return res.status(400).json({
-                success:false,
-                message:"This course is alredy created"
+                success: false,
+                message: "This course is alredy created"
             })
         }
 
@@ -68,7 +68,8 @@ exports.createCourse = async (req, res) => {
             //here tag ki object id insert ki gyi hai
             category: categoryDetail._id,
             thumbNail: thumbnailImage.secure_url,
-            tag
+            tag,
+            status:"Published"
             // or
             // thumbnail:thumbnailImage.secure_url
         })
@@ -112,9 +113,9 @@ exports.showAllCourses = async (req, res) => {
             instructor: true,
             ratingAndReviews: true,
             studentsEnrolled: true,
-            courseDescription:true,
-            whatYouWillLearn:true,
-            courseContent:true
+            courseDescription: true,
+            whatYouWillLearn: true,
+            courseContent: true
         }).populate("instructor").exec();
 
         return res.status(200).json({
@@ -178,26 +179,48 @@ exports.getCourseDetail = async (req, res) => {
 }
 
 
-exports.getEnrolledCourses = async(req,res) => {
-    try{
+exports.getEnrolledCourses = async (req, res) => {
+    try {
         const userId = req.user.id;
-        const userDetail = await User.findOne({_id:userId}).populate("courses").exec();
-        if(!userDetail){
+        const userDetail = await User.findOne({ _id: userId }).populate("courses").exec();
+        if (!userDetail) {
             return res.status(400).json({
-                success:false,
-                message:`Could not find user with ${userId}`
+                success: false,
+                message: `Could not find user with ${userId}`
             })
         }
 
         return res.status(200).json({
-            success:true,
-            data:userDetail.courses
+            success: true,
+            data: userDetail.courses
         })
 
-    }catch(error){
+    } catch (error) {
         return res.status(500).json({
-            success:false,
-            message:error.message
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+exports.getInstructorCourses = async (req, res) => {
+    try {
+        //get the instructor id
+        const InstructorId = req.user.id;
+        // find all courses created by the instructor.
+        const InstructorCourses = await Course.find({
+            instructor: InstructorId
+        }).sort({ createdAt: -1 })
+        //Return the instructor courses
+        return res.status(200).json({
+            success: true,
+            InstructorCourses
+        })
+    }
+    catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
         })
     }
 }

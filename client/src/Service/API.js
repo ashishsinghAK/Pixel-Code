@@ -25,5 +25,15 @@ export const dashboard = {
 }
 
 export const CourseDetail = {
-    GET_ENROLLED_COURSES:BASE_URL+"/course/getEnrolledCourse"
+    GET_ENROLLED_COURSES:BASE_URL+"/course/getEnrolledCourse",
+    COURSE_CATEGORY:BASE_URL+"/course/showAllCategory",
+    ALL_COURSE:BASE_URL+"/course/showAllCourse",
+    COURSE_DETAIL:BASE_URL+"/course/getCourseDetail",
+    CREATE_COURSE:BASE_URL+"/course/createCourse",
+    UPDATE_SECTION:BASE_URL+"/course/updateSection",
+    CREATE_SECTION:BASE_URL+"/course/addSection",
+    DELETE_SECTION:BASE_URL+"/course/deleteSection",
+    DELETE_SUBSECTION:BASE_URL+"/course/deleteSubSection",
+    CREATE_SUBSECTION:BASE_URL+"/course/addSubSection",
+    INSTRUCTOR_COURSE:BASE_URL+"/course/InstructorCourses"
 }

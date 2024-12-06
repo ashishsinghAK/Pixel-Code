@@ -7,6 +7,8 @@ import Setting from '../Component/DashComponent/Setting';
 import { Route, Routes } from 'react-router-dom'
 import EnrolledCourses from '../Component/DashComponent/EnrolledCourses';
 import WishList from '../Component/DashComponent/WishList';
+import AddCourse from '../Component/DashComponent/Courses_Component/AddCourse';
+import MyCourses from "../Component/DashComponent/Courses_Component/MyCourses"
 
 function Dashboard() {
 
@@ -44,6 +46,8 @@ function Dashboard() {
                     <Route path="/setting" element={<Setting />} />
                     <Route path='/enrolled-courses' element={<EnrolledCourses/>}/>
                     <Route path='/My-Wishlist' element={<WishList/>}/>
+                    <Route path='/add-course' element={<AddCourse/>}/>
+                    <Route path='/my-courses' element={<MyCourses/>}/>
                 </Routes>
             </div>
         </div>

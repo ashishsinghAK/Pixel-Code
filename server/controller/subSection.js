@@ -1,6 +1,7 @@
 const SubSection = require('../model/SubSection');
 const Section = require('../model/Section');
 const { uploadImage, uploadVideo } = require('../Util/imageUploader');
+const Course = require('../model/Course');
 require('dotenv').config();
 
 //create subSection
@@ -8,10 +9,12 @@ require('dotenv').config();
 exports.createSubSection = async (req, res) => {
     try {
         //fetch data
-        const { title, timeDuration, description, sectionID } = req.body;
+        const { title, description, sectionID,courseID } = req.body;
         const videoUrl = req.files.videoUrl;
+        console.log(title,description,sectionID,courseID)
+        console.log(videoUrl)
         //validation
-        if (!videoUrl || !title || !timeDuration || !description || !sectionID) {
+        if (!videoUrl || !title || !description || !sectionID || !courseID) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required"
@@ -37,7 +40,7 @@ exports.createSubSection = async (req, res) => {
         //create a subsection
         const subSectionDetail = await SubSection.create({
             title: title,
-            timeDuration: timeDuration,
+            // timeDuration: timeDuration,
             description: description,
             videoUrl: uploadDetail.secure_url,
         });
@@ -50,11 +53,21 @@ exports.createSubSection = async (req, res) => {
                 }
             },
             { new: true }
-        );
+        ).populate({
+            path: "subSection",
+        });
+
+        const updatedCourse = await Course.findById(courseID).populate({
+            path:"courseContent",
+            populate:{
+                path:"subSection"
+            }
+        })
+        console.log(updatedCourse)
         return res.status(200).json({
             success: true,
             message: "SubSection created successfully",
-            updatedSection
+            updatedCourse
         })
     } catch (error) {
         console.log(error);
@@ -98,17 +111,46 @@ exports.updateSubSection = async (req, res) => {
 
 exports.deleteSubSection = async (req, res) => {
     try {
-        const { SubSectionID, sectionID } = req.body;
-        await SubSection.findByIdAndDelete(SubSectionID);
+        const { SubSectionID, sectionID, courseID } = req.body;
+        if (!SubSectionID) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid SubSection"
+            })
+        }
+        if (!sectionID) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid Section"
+            })
+        }
+        if (!courseID) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid Course"
+            })
+        }
+
 
         //is sub section ko section me se bhi to delete kro
         await Section.findByIdAndUpdate(sectionID, {
             $pull: { subSection: SubSectionID }
+        }, { new: true })
+
+        await SubSection.findByIdAndDelete(SubSectionID);
+
+
+        const updatedCourse = await Course.findById(courseID).populate({
+            path: "courseContent",
+            populate: {
+                path: "subSection"
+            }
         })
 
         return res.status(200).json({
             success: true,
-            message: "SubSection deleted successfully"
+            message: "SubSection deleted successfully",
+            updatedCourse
         })
 
     } catch (error) {

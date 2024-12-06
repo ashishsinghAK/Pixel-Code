@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 //course controller
-const { createCourse, showAllCourses, getCourseDetail,getEnrolledCourses } = require('../controller/course');
+const { createCourse, showAllCourses, getCourseDetail,getEnrolledCourses,getInstructorCourses } = require('../controller/course');
 //category controller
 const { createCategory, showAllcategory, getCategoryDetail } = require('../controller/category');
 //section controller
@@ -23,6 +23,7 @@ router.post('/createCourse', auth, isInstructor, createCourse);
 router.get('/showAllCourse', auth,showAllCourses);
 router.get('/getCourseDetail', auth,getCourseDetail);
 router.get('/getEnrolledCourse',auth,getEnrolledCourses);
+router.get("/InstructorCourses",auth,isInstructor,getInstructorCourses);
 
 //add section to course
 router.post('/addSection', auth, isInstructor, createSection);
@@ -38,7 +39,7 @@ router.post('/updateSubSection', auth, isInstructor, updateSubSection);
 router.delete('/deleteSubSection', auth, isInstructor, deleteSubSection);
 
 router.post('/createCategory', auth, isAdmin, createCategory);
-router.get('/showAllCategory', auth, isAdmin, showAllcategory);
+router.get('/showAllCategory', auth, isInstructor, showAllcategory);
 router.get('/getCategoryDetail', auth, isAdmin, getCategoryDetail);
 
 
