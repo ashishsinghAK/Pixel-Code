@@ -8,7 +8,7 @@ import { Route, Routes } from 'react-router-dom'
 import EnrolledCourses from '../Component/DashComponent/EnrolledCourses';
 import WishList from '../Component/DashComponent/WishList';
 import AddCourse from '../Component/DashComponent/Courses_Component/AddCourse';
-import MyCourses from "../Component/DashComponent/Courses_Component/MyCourses"
+import MyCourses from "../Component/DashComponent/MyCourses"
 
 function Dashboard() {
 
@@ -33,7 +33,7 @@ function Dashboard() {
         return (
             <div className='w-screen 
             h-screen flex justify-center items-center text-4xl text-red-500'>
-                You are Registered/Logined</div>
+                You are not Registered/Logined</div>
         )
     }
 

@@ -199,12 +199,13 @@ export const editCourseDetail = async(data,token) => {
     return result;
 }
 
-export const InstructorCourseDetail = async(InstructorId) => {
-    const result=null;
+export const InstructorCourseDetail = async(InstructorId,token) => {
+    let result=null;
     try{
         const response = await ApiConnector("GET",CourseDetail.INSTRUCTOR_COURSE,InstructorId,{
             Authorization:`Bearer ${token}`
         })
+        console.log('Instructor course api response',response)
         if(!response?.data?.success){
             throw new Error("Error while fetching your Courses");
         }
