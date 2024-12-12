@@ -64,17 +64,24 @@ const Catalog = () => {
                                 />
                                 <div className="flex flex-col gap-2">
                                     <div className="flex items-center gap-2">
-                                        <span className="text-red-400">Course Name:</span>
+                                        <span className="text-red-500">Course Name:</span>
                                         {course?.courseName}
                                     </div>
                                     <p>
-                                        <span className="text-red-400">Description: </span>
+                                        <span className="text-red-500">Description: </span>
                                         {course?.courseDescription}
                                     </p>
                                     <p className="flex items-center gap-2">
-                                        <span className="text-red-400">Price: </span>
+                                        <span className="text-red-500">Price: </span>
                                         <FaRupeeSign />
                                         {course?.price}
+                                    </p>
+                                    <p className='flex gap-1'>
+                                        <span className="text-yellow-500">Instructor: </span>
+                                        <span className='flex gap-1'>
+                                            <p>{course?.instructor?.firstName}</p>
+                                            <p>{course?.instructor?.lastName}</p>
+                                        </span>
                                     </p>
                                 </div>
                             </div>
@@ -82,7 +89,7 @@ const Catalog = () => {
                     ) : (
                         <div className="col-span-full text-center">
                             No Courses found in{' '}
-                            <span className="text-yellow-400">
+                            <span className="text-yellow-500">
                                 {catalogPageData?.result?.name}
                             </span>{' '}
                             category.
@@ -111,17 +118,24 @@ const Catalog = () => {
                                     />
                                     <div className="flex flex-col gap-2">
                                         <div className="flex items-center gap-2">
-                                            <span className="text-red-400">Course Name:</span>
+                                            <span className="text-red-500">Course Name:</span>
                                             {course?.courseName}
                                         </div>
                                         <p>
-                                            <span className="text-red-400">Description: </span>
+                                            <span className="text-red-500">Description: </span>
                                             {course?.courseDescription}
                                         </p>
                                         <p className="flex items-center gap-2">
-                                            <span className="text-red-400">Price: </span>
+                                            <span className="text-red-500">Price: </span>
                                             <FaRupeeSign />
                                             {course?.price}
+                                        </p>
+                                        <p className='flex gap-1'>
+                                            <span className="text-yellow-500">Instructor: </span>
+                                            <span className='flex gap-1'>
+                                                <p>{course?.instructor?.firstName}</p>
+                                                <p>{course?.instructor?.lastName}</p>
+                                            </span>
                                         </p>
                                     </div>
                                 </div>

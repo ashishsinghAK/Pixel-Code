@@ -83,7 +83,11 @@ exports.getCategoryDetail = async (req, res) => {
             _id: { $ne: categoryId }, // ne means not equal
         }).populate({
             path: "courses",
-            select: "courseName courseDescription price thumbNail"
+            select: "courseName courseDescription price thumbNail",
+            populate:{
+                path:"instructor",
+                select:"firstName lastName"
+            }
         }).exec();
 
         // i don't want to show top selling course
