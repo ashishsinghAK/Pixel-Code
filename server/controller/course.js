@@ -69,7 +69,7 @@ exports.createCourse = async (req, res) => {
             category: categoryDetail._id,
             thumbNail: thumbnailImage.secure_url,
             tag,
-            status:"Published"
+            status: "Published"
             // or
             // thumbnail:thumbnailImage.secure_url
         })
@@ -84,6 +84,13 @@ exports.createCourse = async (req, res) => {
             },
             { new: true }
         )
+
+        await Category.findByIdAndUpdate({ _id: categoryId }, {
+            $push: {
+                courses: newCourse._id
+            }
+        },
+            { new: true })
 
         //update the tag schema
 

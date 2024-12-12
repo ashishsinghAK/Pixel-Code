@@ -12,6 +12,7 @@ import VerifyEmail from "./Page/VerifyEmail";
 import About from "./Page/About";
 import Dashboard from "./Page/Dashboard";
 import Setting from "./Component/DashComponent/Setting";
+import Catalog from "./Page/Catalog";
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
         <Route path='/verify-email' element={<VerifyEmail/>}/>
         <Route path="/about" element={<About/>}/>
         <Route path="/dashboard/*" element={<Dashboard/>}/>
+        <Route path="/catalog/:catalogName" element={<Catalog/>}/>
         
       </Routes>
     </div>

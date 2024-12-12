@@ -23,7 +23,8 @@ exports.createSubSection = async (req, res) => {
 
         const existingSubSection = await SubSection.findOne({
             description: description,
-            title: title
+            title: title,
+            section:sectionID
         })
         if (existingSubSection) {
             return res.status(400).json({

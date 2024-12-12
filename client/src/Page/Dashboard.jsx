@@ -44,10 +44,10 @@ function Dashboard() {
                 <Routes>
                     <Route path="/" element={<MyProfile />} />
                     <Route path="/setting" element={<Setting />} />
-                    <Route path='/enrolled-courses' element={<EnrolledCourses/>}/>
-                    <Route path='/My-Wishlist' element={<WishList/>}/>
-                    <Route path='/add-course' element={<AddCourse/>}/>
-                    <Route path='/my-courses' element={<MyCourses/>}/>
+                    <Route path='/enrolled-courses' element={<EnrolledCourses />} />
+                    <Route path='/My-Wishlist' element={<WishList />} />
+                    <Route path='/add-course' element={<AddCourse />} />
+                    <Route path='/my-courses' element={<MyCourses />} />
                 </Routes>
             </div>
         </div>

@@ -1,4 +1,5 @@
 const Category = require('../model/Category');
+const Course = require('../model/Course');
 
 
 //create category handler function
@@ -58,10 +59,17 @@ exports.getCategoryDetail = async (req, res) => {
     try {
         //get category id 
         const { categoryId } = req.body;
-        // console.log(categoryId);
+        console.log('categoryid', categoryId);
         //get courses from specified categoryId
         const result = await Category.findById(categoryId)
-            .populate("course").exec();
+            .populate({
+                path: "courses",
+                select: "courseName courseDescription price thumbNail",
+                populate:{
+                    path:"instructor",
+                    select:"firstName lastName"
+                }
+            }).exec();
         //validation
         // console.log(result);
         if (!result) {
@@ -70,11 +78,13 @@ exports.getCategoryDetail = async (req, res) => {
                 message: "Data not found for this category"
             })
         }
-
         //get courses from different category
         const differentCategory = await Category.find({
             _id: { $ne: categoryId }, // ne means not equal
-        }).populate("course").exec();
+        }).populate({
+            path: "courses",
+            select: "courseName courseDescription price thumbNail"
+        }).exec();
 
         // i don't want to show top selling course
 

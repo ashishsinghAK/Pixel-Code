@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 //course controller
-const { createCourse, showAllCourses, getCourseDetail,getEnrolledCourses,getInstructorCourses } = require('../controller/course');
+const { createCourse, showAllCourses, getCourseDetail, getEnrolledCourses, getInstructorCourses } = require('../controller/course');
 //category controller
 const { createCategory, showAllcategory, getCategoryDetail } = require('../controller/category');
 //section controller
@@ -20,10 +20,10 @@ const { auth, isInstructor, isAdmin, isStudent } = require('../middleware/authMi
 //course can only be created by instructor
 router.post('/createCourse', auth, isInstructor, createCourse);
 
-router.get('/showAllCourse', auth,showAllCourses);
-router.get('/getCourseDetail', auth,getCourseDetail);
-router.get('/getEnrolledCourse',auth,getEnrolledCourses);
-router.get("/InstructorCourses",auth,isInstructor,getInstructorCourses);
+router.get('/showAllCourse', auth, showAllCourses);
+router.get('/getCourseDetail', auth, getCourseDetail);
+router.get('/getEnrolledCourse', auth, getEnrolledCourses);
+router.get("/InstructorCourses", auth, isInstructor, getInstructorCourses);
 
 //add section to course
 router.post('/addSection', auth, isInstructor, createSection);
@@ -39,14 +39,14 @@ router.post('/updateSubSection', auth, isInstructor, updateSubSection);
 router.delete('/deleteSubSection', auth, isInstructor, deleteSubSection);
 
 router.post('/createCategory', auth, isAdmin, createCategory);
-router.get('/showAllCategory', auth, isInstructor, showAllcategory);
-router.get('/getCategoryDetail', auth, isAdmin, getCategoryDetail);
+router.get('/showAllCategory', showAllcategory);
+router.post('/getCategoryDetail', getCategoryDetail);
 
 
 /* Rating and Reviews*/
 router.post('/createRating', auth, isStudent, createRating);
-router.get('/getAverageRating',auth, getAvgRating);
-router.get('/getAllRating',auth, getAllRating);
+router.get('/getAverageRating', auth, getAvgRating);
+router.get('/getAllRating', auth, getAllRating);
 
 
 module.exports = router;
