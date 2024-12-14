@@ -13,6 +13,7 @@ import About from "./Page/About";
 import Dashboard from "./Page/Dashboard";
 import Setting from "./Component/DashComponent/Setting";
 import Catalog from "./Page/Catalog";
+import CoursePage from "./Page/CoursePage";
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="/about" element={<About/>}/>
         <Route path="/dashboard/*" element={<Dashboard/>}/>
         <Route path="/catalog/:catalogName" element={<Catalog/>}/>
+        <Route path="/catalog/course/:courseID" element={<CoursePage/>}/>
         
       </Routes>
     </div>

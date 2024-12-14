@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { CategoryDetail } from '../Service/categoryAPI';
 import { getCourseCategory } from '../Service/courseDetailAPI';
 import { FaRupeeSign } from 'react-icons/fa';
@@ -24,7 +24,6 @@ const Catalog = () => {
     useEffect(() => {
         if (!categoryID) return;
         const categoryData = async () => {
-            console.log('category', categoryID);
             const result = await CategoryDetail(categoryID);
             setCatalogPageData(result);
         };
@@ -53,67 +52,14 @@ const Catalog = () => {
                 <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                     {catalogPageData && catalogPageData?.result?.courses.length > 0 ? (
                         catalogPageData.result.courses.map((course) => (
-                            <div
-                                className="flex flex-col gap-4 border p-4 rounded-lg shadow-lg"
-                                key={course._id}
-                            >
-                                <img
-                                    src={course?.thumbNail}
-                                    alt={course?.courseName}
-                                    className="h-[180px] w-full object-cover rounded-lg"
-                                />
-                                <div className="flex flex-col gap-2">
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-red-500">Course Name:</span>
-                                        {course?.courseName}
-                                    </div>
-                                    <p>
-                                        <span className="text-red-500">Description: </span>
-                                        {course?.courseDescription}
-                                    </p>
-                                    <p className="flex items-center gap-2">
-                                        <span className="text-red-500">Price: </span>
-                                        <FaRupeeSign />
-                                        {course?.price}
-                                    </p>
-                                    <p className='flex gap-1'>
-                                        <span className="text-yellow-500">Instructor: </span>
-                                        <span className='flex gap-1'>
-                                            <p>{course?.instructor?.firstName}</p>
-                                            <p>{course?.instructor?.lastName}</p>
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <div className="col-span-full text-center">
-                            No Courses found in{' '}
-                            <span className="text-yellow-500">
-                                {catalogPageData?.result?.name}
-                            </span>{' '}
-                            category.
-                        </div>
-                    )}
-                </div>
-            </div>
-
-            <hr />
-
-            {/* Section 2: Other Courses */}
-            <div className="m-8">
-                <h2 className="text-3xl mb-4">Other Courses</h2>
-                <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                    {catalogPageData && catalogPageData.differentCategory.length > 0 ? (
-                        catalogPageData.differentCategory.flatMap((category) =>
-                            category.courses.map((course) => (
+                            <Link to={`/catalog/course/${course._id}`}>
                                 <div
                                     className="flex flex-col gap-4 border p-4 rounded-lg shadow-lg"
                                     key={course._id}
                                 >
                                     <img
-                                        src={course.thumbNail}
-                                        alt={course.courseName}
+                                        src={course?.thumbNail}
+                                        alt={course?.courseName}
                                         className="h-[180px] w-full object-cover rounded-lg"
                                     />
                                     <div className="flex flex-col gap-2">
@@ -139,6 +85,63 @@ const Catalog = () => {
                                         </p>
                                     </div>
                                 </div>
+                            </Link>
+                        ))
+                    ) : (
+                        <div className="col-span-full text-center">
+                            No Courses found in{' '}
+                            <span className="text-yellow-500">
+                                {catalogPageData?.result?.name}
+                            </span>{' '}
+                            category.
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            <hr />
+
+            {/* Section 2: Other Courses */}
+            <div className="m-8">
+                <h2 className="text-3xl mb-4">Other Courses</h2>
+                <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                    {catalogPageData && catalogPageData.differentCategory.length > 0 ? (
+                        catalogPageData.differentCategory.flatMap((category) =>
+                            category.courses.map((course) => (
+                                <Link to={`/catalog/course/${course._id}`}>
+                                    <div
+                                        className="flex flex-col gap-4 border p-4 rounded-lg shadow-lg"
+                                        key={course._id}
+                                    >
+                                        <img
+                                            src={course.thumbNail}
+                                            alt={course.courseName}
+                                            className="h-[180px] w-full object-cover rounded-lg"
+                                        />
+                                        <div className="flex flex-col gap-2">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-red-500">Course Name:</span>
+                                                {course?.courseName}
+                                            </div>
+                                            <p>
+                                                <span className="text-red-500">Description: </span>
+                                                {course?.courseDescription}
+                                            </p>
+                                            <p className="flex items-center gap-2">
+                                                <span className="text-red-500">Price: </span>
+                                                <FaRupeeSign />
+                                                {course?.price}
+                                            </p>
+                                            <p className='flex gap-1'>
+                                                <span className="text-yellow-500">Instructor: </span>
+                                                <span className='flex gap-1'>
+                                                    <p>{course?.instructor?.firstName}</p>
+                                                    <p>{course?.instructor?.lastName}</p>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </Link>
                             ))
                         )
                     ) : (

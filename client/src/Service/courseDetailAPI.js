@@ -20,15 +20,17 @@ export const getAllCourse = async () => {
     return result
 }
 
-export const fetchCourseDetail = async () => {
+export const fetchCourseDetail = async (courseId, token) => {
     const toastId = toast.loading("Loading...")
     let result = null
     try {
-        const response = await ApiConnector();
-        if (response.data.success) {
+        const response = await ApiConnector("POST", CourseDetail.COURSE_DETAIL, {courseId}, {
+            Authorization: `Bearer ${token}`
+        });
+        if (!response.data.success) {
             throw new Error(response.data.message)
         }
-        result = response.data
+        result = response?.data?.data;
     } catch (error) {
         console.log("Course detail api error", error);
         result = error.response.data
@@ -144,7 +146,7 @@ export const deleteSection = async (data, token) => {
         const response = await ApiConnector("DELETE", CourseDetail.DELETE_SECTION, data, {
             Authorization: `Bearer ${token}`
         })
-       
+
         if (!response?.data?.success) {
             throw new Error('Error while deleting section')
         }
@@ -177,42 +179,42 @@ export const deleteSubSection = async (data, token) => {
     return result;
 }
 
-export const editCourseDetail = async(data,token) => {
+export const editCourseDetail = async (data, token) => {
     let result = null;
     //1:01:30 time
-    try{
-        const response = await ApiConnector("POST",data,{
-            "Content-Type":"multipart/form-data",
-            Authorization:`Bearer ${token}`
+    try {
+        const response = await ApiConnector("POST", data, {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`
         })
-        console.log("Edit course detail api response",response);
-        if(!response?.data?.success){
+        console.log("Edit course detail api response", response);
+        if (!response?.data?.success) {
             throw new Error("Could not update course Detail");
         }
         toast.success("Course Detail Updated Successfully")
         result = response?.data?.data
 
-    }catch(error){
-        console.log("Edit course API Error",error);
+    } catch (error) {
+        console.log("Edit course API Error", error);
         toast.error(error.message);
     }
     return result;
 }
 
-export const InstructorCourseDetail = async(InstructorId,token) => {
-    let result=null;
-    try{
-        const response = await ApiConnector("GET",CourseDetail.INSTRUCTOR_COURSE,InstructorId,{
-            Authorization:`Bearer ${token}`
+export const InstructorCourseDetail = async (InstructorId, token) => {
+    let result = null;
+    try {
+        const response = await ApiConnector("GET", CourseDetail.INSTRUCTOR_COURSE, InstructorId, {
+            Authorization: `Bearer ${token}`
         })
-        console.log('Instructor course api response',response)
-        if(!response?.data?.success){
+        console.log('Instructor course api response', response)
+        if (!response?.data?.success) {
             throw new Error("Error while fetching your Courses");
         }
-        result=response?.data?.InstructorCourses;
-        console.log('Instructor courses',result)
-    }catch(error){
-        console.log("InstructorCourse API Error",error);
+        result = response?.data?.InstructorCourses;
+        console.log('Instructor courses', result)
+    } catch (error) {
+        console.log("InstructorCourse API Error", error);
         toast.error("Not able to fetch Course")
     }
     return result;

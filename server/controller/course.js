@@ -147,21 +147,24 @@ exports.getCourseDetail = async (req, res) => {
     try {
         const { courseId } = req.body;
         //find course detail
-        const courseDetail = await Course.find(
+        const courseDetail = await Course.findOne(
             { _id: courseId }
         ).populate({
+            path:"studentsEnrolled"
+        }).populate({
             path: "instructor",
+            select:"firstName lastName"
+            // populate: {
+            //     path: "additionalDetails"
+            // }
+        }).populate({
+            path: "category",
+        }).populate({
+            path: "courseContent",
             populate: {
-                path: "additionalDetails"
+                path: "subSection"
             }
-        }).populate("category")
-            //.populate("ratingAndReviews")
-            .populate({
-                path: "courseContent",
-                populate: {
-                    path: "subSection"
-                }
-            }).exec();
+        }).exec();
 
         //validation
         if (!courseDetail) {

@@ -21,7 +21,7 @@ const { auth, isInstructor, isAdmin, isStudent } = require('../middleware/authMi
 router.post('/createCourse', auth, isInstructor, createCourse);
 
 router.get('/showAllCourse', auth, showAllCourses);
-router.get('/getCourseDetail', auth, getCourseDetail);
+router.post('/getCourseDetail', getCourseDetail);
 router.get('/getEnrolledCourse', auth, getEnrolledCourses);
 router.get("/InstructorCourses", auth, isInstructor, getInstructorCourses);
 
