@@ -219,3 +219,20 @@ export const InstructorCourseDetail = async (InstructorId, token) => {
     }
     return result;
 }
+
+export const EnrollCourse = async(courseId,token) => {
+    const toastId = toast.loading("Loading...")
+    try{
+        const response = await ApiConnector("POST",CourseDetail.ENROLL_COURSE,{courseId},{
+            Authorization:`Bearer ${token}`
+        })
+        if(!response?.data?.success){
+            throw new Error("Error while Enrolling into course")
+        }
+
+    }catch(error){
+        console.log("Enroll course API error",error);
+        toast.error("Failed to Enroll Course")
+    }
+    toast.dismiss(toastId)
+}

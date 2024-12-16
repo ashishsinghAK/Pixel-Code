@@ -2,6 +2,7 @@ const Course = require('../model/Course');
 const Category = require('../model/Category');
 const User = require('../model/User');
 const { uploadImage } = require('../Util/imageUploader');
+const MailSender = require('../Util/MailSender');
 require('dotenv').config();
 
 //create course handler function
@@ -150,10 +151,10 @@ exports.getCourseDetail = async (req, res) => {
         const courseDetail = await Course.findOne(
             { _id: courseId }
         ).populate({
-            path:"studentsEnrolled"
+            path: "studentsEnrolled"
         }).populate({
             path: "instructor",
-            select:"firstName lastName"
+            select: "firstName lastName"
             // populate: {
             //     path: "additionalDetails"
             // }
@@ -234,3 +235,76 @@ exports.getInstructorCourses = async (req, res) => {
         })
     }
 }
+
+exports.EnrollCourse = async (req, res) => {
+    try {
+        const { courseId } = req.body;
+        const userId = req.user.id;
+
+        if (!userId || !courseId) {
+            return res.status(400).json({
+                success: false,
+                message: "All fields are required",
+            });
+        }
+
+        const course = await Course.findById(courseId);
+        if (!course) {
+            return res.status(404).json({
+                success: false,
+                message: "Course not found",
+            });
+        }
+
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "Student not found",
+            });
+        }
+
+
+        const isAlreadyEnrolled = course.studentsEnrolled.includes(userId);
+        if (isAlreadyEnrolled) {
+            return res.status(409).json({
+                success: false,
+                message: "You are already enrolled in this course",
+            });
+        }
+
+
+        const CourseEnrolled = await Course.findByIdAndUpdate(
+            courseId,
+            { $push: { studentsEnrolled: userId } },
+            { new: true }
+        );
+
+
+        const StudentEnrolled = await User.findByIdAndUpdate(
+            userId,
+            { $push: { courses: courseId } },
+            { new: true }
+        );
+
+        // Send the confirmation email
+        const mailResponse = await MailSender(
+            StudentEnrolled.email,
+            "Congratulations from Pixel-Code",
+            `Congratulations, ${StudentEnrolled.firstName}, 
+            for purchasing the ${CourseEnrolled.courseName} course from Pixel-Code. 
+            Happy Learning and Keep Growing!`
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Course enrolled successfully",
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};

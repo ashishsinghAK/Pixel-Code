@@ -44,16 +44,18 @@ const courseSchema = new mongoose.Schema({
         type: [String],
         required: true,
     },
-    studentsEnrolled: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-    },
+    studentsEnrolled: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        }
+    ],
     status: {
         type: String,
         enum: ["Draft", "Published"]
     },
-    instructions:{
-        type:[String]
+    instructions: {
+        type: [String]
     }
 });
 

@@ -37,7 +37,7 @@ function EnrolledCourses() {
                             courseEnroll.map((course, index) => (
                                 <div>
                                     <div>
-                                        <img src={course?.thumbNail} />
+                                        <img src={course?.thumbNail} className='w-[250px]'/>
                                         <div>
                                             <p>{course?.courseName}</p>
                                             <p>{course?.courseDescription}</p>

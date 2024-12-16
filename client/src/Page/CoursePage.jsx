@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { fetchCourseDetail } from '../Service/courseDetailAPI';
+import { useNavigate, useParams } from 'react-router-dom'
+import { EnrollCourse, fetchCourseDetail } from '../Service/courseDetailAPI';
 import { useSelector } from "react-redux"
 import { FaGlobeAsia } from "react-icons/fa";
 import { FaRupeeSign } from 'react-icons/fa';
 
 const CoursePage = () => {
   const { courseID } = useParams();
+  const navigate = useNavigate()
   const [courseData, setCourseData] = useState(null);
   const { token } = useSelector((state) => state.auth);
   const [expandedSections, setExpandedSections] = useState({});
@@ -14,7 +15,6 @@ const CoursePage = () => {
   useEffect(() => {
     const CourseDetail = async () => {
       const result = await fetchCourseDetail(courseID, token);
-      console.log('data hai ye ', result);
       if (result) {
         setCourseData(result);
       }
@@ -30,6 +30,11 @@ const CoursePage = () => {
       [id]: !prevState[id],
     }));
   };
+
+  const enrollButton = async() => {
+    await EnrollCourse(courseID,token)
+    navigate("/dashboard/enrolled-courses")
+  }
 
 
   return (
@@ -69,7 +74,8 @@ const CoursePage = () => {
                   <FaRupeeSign />
                   {courseData?.price}
                 </p>
-                <button className='font-bold text-yellow-400 border p-2 hover:bg-slate-600'>Buy Now</button>
+                <button className='font-bold text-yellow-400 border p-2 hover:bg-slate-600'
+                onClick={enrollButton}>Buy Now</button>
                 <button className='font-bold border p-2 bg-slate-700 hover:bg-slate-600'>Add to Cart</button>
               </div>)
             }

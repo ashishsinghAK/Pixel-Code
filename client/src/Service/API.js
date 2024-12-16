@@ -35,5 +35,6 @@ export const CourseDetail = {
     DELETE_SECTION:BASE_URL+"/course/deleteSection",
     DELETE_SUBSECTION:BASE_URL+"/course/deleteSubSection",
     CREATE_SUBSECTION:BASE_URL+"/course/addSubSection",
-    INSTRUCTOR_COURSE:BASE_URL+"/course/InstructorCourses"
+    INSTRUCTOR_COURSE:BASE_URL+"/course/InstructorCourses",
+    ENROLL_COURSE:BASE_URL+"/course/enrollCourse"
 }
