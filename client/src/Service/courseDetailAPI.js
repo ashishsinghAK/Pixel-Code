@@ -24,7 +24,7 @@ export const fetchCourseDetail = async (courseId, token) => {
     const toastId = toast.loading("Loading...")
     let result = null
     try {
-        const response = await ApiConnector("POST", CourseDetail.COURSE_DETAIL, {courseId}, {
+        const response = await ApiConnector("POST", CourseDetail.COURSE_DETAIL, { courseId }, {
             Authorization: `Bearer ${token}`
         });
         if (!response.data.success) {
@@ -220,19 +220,25 @@ export const InstructorCourseDetail = async (InstructorId, token) => {
     return result;
 }
 
-export const EnrollCourse = async(courseId,token) => {
+export const EnrollCourse = async (courseId, token) => {
     const toastId = toast.loading("Loading...")
-    try{
-        const response = await ApiConnector("POST",CourseDetail.ENROLL_COURSE,{courseId},{
-            Authorization:`Bearer ${token}`
+    try {
+        const response = await ApiConnector("POST", CourseDetail.ENROLL_COURSE, { courseId }, {
+            Authorization: `Bearer ${token}`
         })
-        if(!response?.data?.success){
-            throw new Error("Error while Enrolling into course")
+        if (!response?.data?.success) {
+            throw new Error(response?.data?.message || "Error while enrolling in the course")
         }
+        toast.success("Course enrolled successfully")
 
-    }catch(error){
-        console.log("Enroll course API error",error);
-        toast.error("Failed to Enroll Course")
+    } catch (error) {
+        console.log("Enroll course API error", error);
+        // Check for already enrolled case
+        if (error.response?.status === 409) {
+            toast.success("You are already enrolled in this course");
+        } else {
+            toast.error(error.message);
+        }
     }
     toast.dismiss(toastId)
 }

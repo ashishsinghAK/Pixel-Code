@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { EnrollCourse, fetchCourseDetail } from '../Service/courseDetailAPI';
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { FaGlobeAsia } from "react-icons/fa";
 import { FaRupeeSign } from 'react-icons/fa';
+import { toast } from "react-hot-toast"
+import { addToCart } from '../Reducer/slice/cartSlice';
+import { IoVideocamOutline } from "react-icons/io5";
+import { LuFolderInput } from "react-icons/lu";
+
 
 const CoursePage = () => {
+  const {user} = useSelector((state)=> state.profile)
+  const dispatch = useDispatch()
   const { courseID } = useParams();
   const navigate = useNavigate()
   const [courseData, setCourseData] = useState(null);
@@ -31,9 +38,21 @@ const CoursePage = () => {
     }));
   };
 
-  const enrollButton = async() => {
-    await EnrollCourse(courseID,token)
+  const enrollButton = async () => {
+    await EnrollCourse(courseID, token)
     navigate("/dashboard/enrolled-courses")
+  }
+
+  const handleCart = () => {
+    if(user && user.accountType==="Instructor"){
+      toast.error("Instructor can't buy a course")
+      return
+    }
+    else{
+      dispatch(addToCart(courseData))
+      navigate("/dashboard/My-Wishlist")
+      return
+    }
   }
 
 
@@ -41,7 +60,7 @@ const CoursePage = () => {
     <div className='text-white flex justify-center m-5'>
       <div className='flex flex-col gap-10'>
 
-        <div className='flex justify-around border w-[90vw] rounded-lg p-10'>
+        <div className='flex justify-around bg-slate-900 w-[90vw] rounded-lg p-10'>
           <div>
             {
               courseData && (<div className='flex flex-col gap-4'>
@@ -61,6 +80,7 @@ const CoursePage = () => {
                 </p>
                 <p className='text-slate-300'>Pace: Self Pace</p>
                 <p className='text-slate-300'>Validity: 365 days</p>
+                <p>Students Enrolled: {courseData?.studentsEnrolled?.length}</p>
 
               </div>)
             }
@@ -70,19 +90,33 @@ const CoursePage = () => {
             {
               courseData && (<div className='flex flex-col gap-2'>
                 <img src={courseData?.thumbNail} alt="" className='w-[280px] rounded-lg' />
-                <p className='flex items-center gap-1'>price:
+                <p className='flex items-center gap-1 text-xl'>price:
                   <FaRupeeSign />
                   {courseData?.price}
                 </p>
-                <button className='font-bold text-yellow-400 border p-2 hover:bg-slate-600'
-                onClick={enrollButton}>Buy Now</button>
-                <button className='font-bold border p-2 bg-slate-700 hover:bg-slate-600'>Add to Cart</button>
+                {
+                  user ? (
+                    <div className='flex flex-col gap-2'>
+                  <button className='font-bold text-yellow-400 border p-2 hover:bg-slate-600'
+                    onClick={enrollButton}>Buy Now</button>
+                  <button className='font-bold border p-2 bg-slate-700 hover:bg-slate-600'
+                  onClick={handleCart}>Add to Cart</button>
+                </div>
+                  ) : (<div className='flex flex-col gap-2'>
+                    <p className='text-red-500'>Signup/Login to Buy Course</p>
+                    <button className='border p-2 bg-yellow-500 text-black font-semibold rounded-lg'
+                    onClick={() => navigate("/signup")}>Signup</button>
+                  </div>)
+                  
+                }
               </div>)
             }
           </div>
         </div>
 
         <div className='flex flex-col gap-5  p-8 rounded-lg'>
+          <p><span className='text-slate-300 text-2xl'>What will you learn: </span> 
+          {courseData?.whatYouWillLearn}</p>
           <p className='text-4xl'>Course Content:</p>
           <p>Total sections: {courseData?.courseContent?.length || 0}</p>
 
@@ -90,14 +124,17 @@ const CoursePage = () => {
             courseData.courseContent.map((section) => (
               <div
                 key={section._id}
-                className='p-5 bg-slate-800 rounded-lg'
+                className='p-5 bg-slate-900 rounded-lg'
               >
                 {/* Section Name */}
                 <div
                   className='flex items-center justify-between cursor-pointer'
                   onClick={() => toggleSection(section._id)}
                 >
+                  <div className='flex items-center gap-2'>
+                  <LuFolderInput className='text-yellow-500 font-semibold' />
                   <p className='text-xl font-semibold'>{section.sectionName}</p>
+                  </div>
                   <span
                     className={`transition-transform ${expandedSections[section._id] ? 'rotate-180' : ''
                       }`}
@@ -112,12 +149,15 @@ const CoursePage = () => {
                     {section?.subSection?.length > 0 ? (
                       <ul className='pl-5 list-disc list-inside'>
                         {section.subSection.map((sub) => (
-                          <li
+                          <div className='flex items-center gap-2'>
+                            <IoVideocamOutline />
+                            <li
                             key={sub._id}
                             className='text-slate-400'
                           >
                             {sub.title}
                           </li>
+                          </div>
                         ))}
                       </ul>
                     ) : (

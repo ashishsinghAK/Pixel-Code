@@ -89,9 +89,14 @@ const SignUp = () => {
                             <input type="password" id="confirmPassword" className='btn bg-slate-800 p-2 rounded-md' placeholder='Confirm Password' required onChange={changeHandler}/>
                         </div>
                     </div>
+                    <div className='flex gap-2'>
+                        <p className='text-red-500'>Already have an account ?</p>
+                        <button className='text-slate-300 underline'
+                        onClick={() => navigate("/login")}>login...</button>
+                    </div>
                     <div className='mt-5'>
                     <button type='submit' className='bg-yellow-500 w-fit p-2 text-black font-bold rounded-md'>
-                        Create Account
+                        Sign up
                     </button>
                    </div>
                 </form>

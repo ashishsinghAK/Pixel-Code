@@ -2,54 +2,54 @@ import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { IoStarOutline } from "react-icons/io5";
 import { MdOutlineDeleteForever } from "react-icons/md";
-import ReactStars from "react-rating-stars-component";
+import { toast } from "react-hot-toast"
+import { removeFromCart } from '../../Reducer/slice/cartSlice';
 
 function WishList() {
-  const { totalItem, cart, removeFromCart } = useSelector((state) => state.cart)
+  const { totalItem, cart } = useSelector((state) => state.cart)
   const dispatch = useDispatch();
+
+  const removeCart = (courseId) => {
+    dispatch(removeFromCart(courseId))
+    toast.success("Course Removed")
+  }
+
   return (
     <div className='text-white'>
-      hello
-      <h1>My Wishlist</h1>
+
+      <h1 className='text-4xl m-5'>My Wishlist</h1>
 
       {
         totalItem > 0 ? (
-          <div>
+          <div className='w-[60vw] '>
             {
               cart.map((course, index) => (
-                <div>
-                  <div>
-                    <img src={course?.thumbNail} />
-                  </div>
+                <div className='border-t'>
+                  <div className='flex justify-around m-5'>
+                    <div className='flex gap-2'>
+                      <div>
+                        <img src={course?.thumbNail} className='w-[250px]' />
+                      </div>
 
-                  <div>
-                    <p>{course?.courseName}</p>
-                    <p>{course?.category}</p>
-                    <div>
-                      <span>4.8</span>
-                      <ReactStars
-                        count={5}
-                        size={20}
-                        edit={false}
-                        activeColor="#ffd700"
-                        emptyIcon={<IoStarOutline />}
-                        fullIcon={<IoStarOutline />}
-                      />
-                      <p>{course?.ratingAndReviews.length} Ratings</p>
+                      <div>
+                        <p><span className='text-yellow-500 font-semibold'>Course Name:</span> {course?.courseName}</p>
+                        <p><span className='text-yellow-500 font-semibold'>Category:</span> {course?.category?.name}</p>
+                      </div>
                     </div>
+
+
+                    <div>
+                      <button onClick={() => removeCart(course._id)}
+                        className='text-red-500 border flex p-2 items-center'>
+                        <MdOutlineDeleteForever />
+                        <span>Remove</span>
+                      </button>
+
+                      <p className='text-2xl font-semibold text-yellow-500'>Rs {course?.price}</p>
+                    </div>
+
+
                   </div>
-
-
-                  <div>
-                    <button onClick={() => dispatch(removeFromCart(course._id))}>
-                      <MdOutlineDeleteForever />
-                      <span>Remove</span>
-                    </button>
-
-                    <p>{course?.price}</p>
-                  </div>
-
-
                 </div>
               ))
             }
