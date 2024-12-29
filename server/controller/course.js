@@ -3,6 +3,8 @@ const Category = require('../model/Category');
 const User = require('../model/User');
 const { uploadImage } = require('../Util/imageUploader');
 const MailSender = require('../Util/MailSender');
+const CourseProgress = require('../model/CourseProgress');
+const convertSecondsToDuration = require("../Util/setToDuration")
 require('dotenv').config();
 
 //create course handler function
@@ -193,7 +195,45 @@ exports.getCourseDetail = async (req, res) => {
 exports.getEnrolledCourses = async (req, res) => {
     try {
         const userId = req.user.id;
-        const userDetail = await User.findOne({ _id: userId }).populate("courses").exec();
+        let userDetail = await User.findOne({ _id: userId })
+            .populate({
+                path: "courses",
+                populate: {
+                    path: "courseContent", // Refers to "Section" in the Course schema
+                    populate: {
+                        path: "subSection", // Refers to "SubSection" in the Section schema
+                    },
+                },
+            })
+            .exec();
+
+            userDetail = userDetail.toObject()
+            var subSectionLength = 0
+            for(var i=0;i<userDetail.courses.length;i++){
+                let totalDurationInSecond = 0;
+                subSectionLength=0
+                for(var j=0;j<userDetail.courses[i].courseContent.length;j++){
+                    totalDurationInSecond +=userDetail.courses[i].courseContent[j].subSection.reduce((acc,curr) => acc+parseInt(curr.timeDuration),0)
+                    userDetail.courses[i].totalDuration = convertSecondsToDuration(totalDurationInSecond)
+                    subSectionLength += userDetail.courses[i].courseContent[j].subSection.length
+                }
+                let courseProgressCount = await CourseProgress.findOne({
+                    courseID:userDetail.courses[i]._id,
+                    userId:userId
+                })
+                courseProgressCount = courseProgressCount?.completedVideo.length
+                if(subSectionLength === 0){
+                    userDetail.courses[i].progressPercentage = 100
+                }
+                else{
+                    const multiplier = Math.pow(10,2)
+                    userDetail.courses[i].progressPercentage = Math.round(
+                        (courseProgressCount/subSectionLength)*100*multiplier
+                    )/multiplier
+                }
+            }
+            //video 8 time 41:06
+
         if (!userDetail) {
             return res.status(400).json({
                 success: false,
@@ -281,10 +321,20 @@ exports.EnrollCourse = async (req, res) => {
             { new: true }
         );
 
+        // const courseProgress = await CourseProgress.create({
+        //     courseID: courseId,
+        //     userId: userId,
+        //     completedVideo: []
+        // })
 
         const StudentEnrolled = await User.findByIdAndUpdate(
             userId,
-            { $push: { courses: courseId } },
+            {
+                $push: {
+                    courses: courseId,
+                    // courseProgress: courseProgress._id
+                }
+            },
             { new: true }
         );
 

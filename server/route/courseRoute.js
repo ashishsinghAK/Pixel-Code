@@ -3,7 +3,7 @@ const router = express.Router();
 
 //course controller
 const { createCourse, showAllCourses, getCourseDetail,
-     getEnrolledCourses, getInstructorCourses,EnrollCourse } = require('../controller/course');
+     getEnrolledCourses, getInstructorCourses, EnrollCourse } = require('../controller/course');
 //category controller
 const { createCategory, showAllcategory, getCategoryDetail } = require('../controller/category');
 //section controller
@@ -16,6 +16,9 @@ const { createRating, getAvgRating, getAllRating } = require('../controller/rati
 //import middlewares
 const { auth, isInstructor, isAdmin, isStudent } = require('../middleware/authMiddleware');
 
+// const { updateCourseProgress } = require("../controller/courseProgress");
+// router.post("/courseProgress", auth, isStudent, updateCourseProgress);
+
 /*     course routes      */
 
 //course can only be created by instructor
@@ -25,7 +28,7 @@ router.get('/showAllCourse', auth, showAllCourses);
 router.post('/getCourseDetail', getCourseDetail);
 router.get('/getEnrolledCourse', auth, getEnrolledCourses);
 router.get("/InstructorCourses", auth, isInstructor, getInstructorCourses);
-router.post("/enrollCourse",auth,isStudent,EnrollCourse)
+router.post("/enrollCourse", auth, isStudent, EnrollCourse)
 
 //add section to course
 router.post('/addSection', auth, isInstructor, createSection);

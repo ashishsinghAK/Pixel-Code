@@ -52,25 +52,29 @@ const NavBar = () => {
         <div className='flex justify-evenly gap-12'>
 
           <Link to="/" className='text-yellow-500'>Home</Link>
-          <div className='flex flex-row gap-1 items-center justify-center relative group'>
-            <Link>Catalog</Link>
-            <span><IoIosArrowDropdown /></span>
-            <div className='invisible absolute flex flex-col rounded-md bg-white
+          {
+            user && user?.accountType === "Student" && (
+              <div className='flex flex-row gap-1 items-center justify-center relative group'>
+                <Link>Category</Link>
+                <span><IoIosArrowDropdown /></span>
+                <div className='invisible absolute flex flex-col rounded-md bg-white
             text-slate-900 opacity-0 transition-all duration-200 group-hover:visible 
             group-hover:opacity-100 lg:w-[300px] cursor-pointer left-[50%] top-[50%]
             translate-x-[-50%] translate-y-6 p-1 z-50'>
-              {
-                subLink.length > 0 ? (
-                  subLink.map((links, index) => (
-                    <Link to={`catalog/${links.name.split(" ").join("-").toLowerCase()}`} key={index}>
-                      <p className='hover:bg-yellow-400 p-1'>{links.name}</p>
-                    </Link>
-                  ))
-                ) : (<div>No Category Added</div>)
-              }
-            </div>
+                  {
+                    subLink.length > 0 ? (
+                      subLink.map((links, index) => (
+                        <Link to={`catalog/${links.name.split(" ").join("-").toLowerCase()}`} key={index}>
+                          <p className='hover:bg-yellow-400 p-1'>{links.name}</p>
+                        </Link>
+                      ))
+                    ) : (<div>No Category Added</div>)
+                  }
+                </div>
 
-          </div>
+              </div>
+            )
+          }
           <Link to="/about">About us</Link>
           <Link to="/contact">Contact us</Link>
 
