@@ -22,6 +22,7 @@ export const contactUsData = {
 export const dashboard = {
     SETTING_API:BASE_URL+"/profile/updateProfile",
     DELETE_API:BASE_URL+"/profile/deleteProfile",
+    INSTRUCTOR_DASHBOARD:BASE_URL+"/profile/instructorDetail"
 }
 
 export const CourseDetail = {

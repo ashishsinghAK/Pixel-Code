@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast"
 import { ApiConnector } from "./ApiConnector"
-import { CourseDetail } from "./API"
+import { CourseDetail, dashboard } from "./API"
 
 export async function EnrolledCourse(token) {
     const toastId = toast.loading('Loading...')
@@ -45,3 +45,25 @@ export async function EnrolledCourse(token) {
 //     toast.dismiss(toastId);
 //     return result;
 // }
+
+export const InstructorData = async(token) => {
+    const toastId = toast.loading("Loading...");
+    let result=[]
+    try{
+        const response = await ApiConnector("POST",dashboard.INSTRUCTOR_DASHBOARD,null,{
+            Authorization:`Bearer ${token}`
+        })
+        if(!response){
+            throw new Error(response.data.message)
+        }
+        // console.log("Instructor Dashboard Api response",response);
+        result = response?.data?.course;
+        // console.log("result hai ye",result);
+
+    }catch(error){
+        console.log("Instructor Dashboard Api error",error);
+        toast.error("Could not Load Data");
+    }
+    toast.dismiss(toastId)
+    return result;
+}

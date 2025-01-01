@@ -1,5 +1,6 @@
 const Profile = require('../model/Profile');
 const User = require('../model/User');
+const Course = require("../model/Course");
 
 exports.updateProfile = async (req, res) => {
     try {
@@ -92,6 +93,44 @@ exports.getUserDetail = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Error occur while fetching the details of user"
+        })
+    }
+}
+
+exports.InstructorDetail = async (req, res) => {
+    try {
+        const InstructorId = req.user.id;
+
+        const courseDetail = await Course.find({ instructor: InstructorId })
+        if (!courseDetail) {
+            return res.status(401).json({
+                success: false,
+                message: "Course not found"
+            })
+        }
+        const courseData = courseDetail.map((course) => {
+            const totalStudent = course.studentsEnrolled.length;
+            const totalAmount = totalStudent * course.price;
+
+            //create a new object with the additional feilds 
+            const anotherInfo = {
+                _id: course._id,
+                courseName: course.courseName,
+                courseDescription: course.courseDescription,
+                totalStudent,
+                totalAmount
+            }
+            return anotherInfo;
+        })
+        return res.status(200).json({
+            success: true,
+            course: courseData
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            success: false,
+            message: "Cound not find the details"
         })
     }
 }

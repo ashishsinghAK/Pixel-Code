@@ -207,12 +207,12 @@ export const InstructorCourseDetail = async (InstructorId, token) => {
         const response = await ApiConnector("GET", CourseDetail.INSTRUCTOR_COURSE, InstructorId, {
             Authorization: `Bearer ${token}`
         })
-        console.log('Instructor course api response', response)
+       
         if (!response?.data?.success) {
             throw new Error("Error while fetching your Courses");
         }
         result = response?.data?.InstructorCourses;
-        console.log('Instructor courses', result)
+        
     } catch (error) {
         console.log("InstructorCourse API Error", error);
         toast.error("Not able to fetch Course")

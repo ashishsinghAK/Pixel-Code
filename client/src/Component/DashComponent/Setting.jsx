@@ -5,21 +5,21 @@ import { useNavigate } from 'react-router-dom';
 
 function Setting() {
     const { user } = useSelector((state) => state.profile);
-    const {token}  = useSelector((state)=>state.auth);
+    const { token } = useSelector((state) => state.auth);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    
 
-    
+
+
     const [formData, setFormData] = useState({
         dateOfBirth: user?.dob || '',
         about: user?.about || '',
         contactNumber: user?.contact || '',
-        gender: user?.gender?.toLowerCase() || '' 
+        gender: user?.gender?.toLowerCase() || ''
     });
-    
-    
+
+
 
     const handleChange = (event) => {
         setFormData({ ...formData, [event.target.id]: event.target.value });
@@ -27,11 +27,11 @@ function Setting() {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        dispatch(UpdateDetail(formData.dateOfBirth, formData.about, formData.contactNumber, formData.gender,token, navigate));
+        dispatch(UpdateDetail(formData.dateOfBirth, formData.about, formData.contactNumber, formData.gender, token, navigate));
     };
 
     const deleteHandler = () => {
-        dispatch(DeleteProfile(token,navigate));
+        dispatch(DeleteProfile(token, navigate));
     };
 
     return (
@@ -69,7 +69,7 @@ function Setting() {
                                     value={formData.gender}
                                     onChange={handleChange}
                                 >
-                                    <option value="" disabled>Select Gender</option> 
+                                    <option value="" disabled>Select Gender</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                     <option value="other">Other</option>
@@ -107,21 +107,25 @@ function Setting() {
                 </section>
 
                 {/* Delete Account Section */}
-                <div className='bg-slate-800 p-10 flex flex-col gap-5 rounded-xl'>
-                    <button
-                        className='text-black p-3 rounded-md bg-red-600 font-bold w-fit'
-                        onClick={deleteHandler}
-                    >
-                        Delete Account
-                    </button>
-                    <div className='text-yellow-400 font-semibold text-[1em]'>
-                        <p>Would you like to delete your account?</p>
-                        <p>
-                            This account may contain paid courses. Deleting the account will permanently
-                            delete your courses and related information.
-                        </p>
-                    </div>
-                </div>
+                {
+                   user &&  user?.accountType === "Student" && (
+                        <div className='bg-slate-800 p-10 flex flex-col gap-5 rounded-xl'>
+                            <button
+                                className='text-black p-3 rounded-md bg-red-600 font-bold w-fit'
+                                onClick={deleteHandler}
+                            >
+                                Delete Account
+                            </button>
+                            <div className='text-yellow-400 font-semibold text-[1em]'>
+                                <p>Would you like to delete your account?</p>
+                                <p>
+                                    This account may contain paid courses. Deleting the account will permanently
+                                    delete your courses and related information.
+                                </p>
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </div>
     );
