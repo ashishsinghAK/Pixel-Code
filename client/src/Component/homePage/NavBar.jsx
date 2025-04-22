@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux"
-import { FaCartPlus } from "react-icons/fa6";
-import ProfileDropdown from '../Auth/ProfileDropdown';
+import {ProfileDropdown} from '../Auth/ProfileDropdown';
 import { IoIosArrowDropdown } from "react-icons/io";
 import { logout } from '../../Service/authAPI';
 import { getCourseCategory } from '../../Service/courseDetailAPI';

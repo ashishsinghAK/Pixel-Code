@@ -5,7 +5,7 @@ import { Dropdown } from "flowbite-react"
 import { useNavigate, Link } from 'react-router-dom';
 
 
-const ProfileDropdown = () => {
+export const ProfileDropdown = () => {
   const { user } = useSelector((state) => state.profile);
   const navigate = useNavigate();
 
@@ -39,4 +39,4 @@ const ProfileDropdown = () => {
   )
 };
 
-export default ProfileDropdown;
+// export default ProfileDropdown;
