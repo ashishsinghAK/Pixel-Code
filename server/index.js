@@ -19,8 +19,7 @@ require('dotenv').config();
 
 
 app.use(cors({
-    // origin: 'https://pixel-code.onrender.com',
-    origin:'*',
+    origin: 'https://pixel-code.onrender.com',
     credentials:true
 }));
 
