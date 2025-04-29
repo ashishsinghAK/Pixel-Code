@@ -16,6 +16,7 @@ import CoursePage from "./Page/CoursePage";
 import { useSelector } from "react-redux";
 import ViewCourse from "./Page/ViewCourse";
 import VideoSection from "./Component/CourseComponent/VideoSection";
+import Contact from "./Page/Contact";
 
 function App() {
     const {user} = useSelector((state)=> state.profile);
@@ -30,6 +31,7 @@ function App() {
         <Route path='update-password/:id' element={<UpdatePassword/>}/>
         <Route path='/verify-email' element={<VerifyEmail/>}/>
         <Route path="/about" element={<About/>}/>
+        <Route path="/contact" element={<Contact/>}/>
         <Route path="/dashboard/*" element={<Dashboard/>}/>
         <Route path="/catalog/:catalogName" element={<Catalog/>}/>
         <Route path="/catalog/course/:courseID" element={<CoursePage/>}/>

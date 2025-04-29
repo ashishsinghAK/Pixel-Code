@@ -36,9 +36,9 @@ function Setting() {
 
     return (
         <div className='text-white flex justify-center'>
-            <div className='flex flex-col justify-center items-center p-10 gap-10'>
+            <div className='flex flex-col justify-center items-center  gap-10'>
                 {/* Profile Information Section */}
-                <section className="flex flex-col gap-10 w-[60vw] border-2 p-16 rounded-lg">
+                <section className="flex flex-col gap-10 w-[75vw] border p-6 rounded-lg">
                     <h1 className='text-3xl text-yellow-500'>Profile Information</h1>
 
                     <div className='flex flex-col md:flex-row gap-5 text-xl'>

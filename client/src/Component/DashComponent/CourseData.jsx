@@ -42,9 +42,8 @@ const CourseData = ({ courses, setCourses }) => {
 
                 {/* Course Price */}
                 <Td className="p-4 text-left align-top hidden sm:table-cell">
-                  <span className="flex items-center gap-1 text-lg">
-                    <FaRupeeSign />
-                    {course?.price}
+                  <span className="flex items-center gap-1 text-lg text-yellow-400">
+                    Free
                   </span>
                 </Td>
               </Tr>
@@ -68,9 +67,8 @@ const CourseData = ({ courses, setCourses }) => {
                 {course?.courseDescription}
               </p>
               <p>Sections: {course?.courseContent.length}</p>
-              <span className="flex items-center gap-1 text-lg">
-                <FaRupeeSign />
-                {course?.price}
+              <span className="flex items-center gap-1 text-lg text-yellow-300">
+                Free
               </span>
             </div>
           </div>

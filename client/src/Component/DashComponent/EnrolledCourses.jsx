@@ -22,8 +22,8 @@ function EnrolledCourses() {
     }, []);
 
     return (
-        <div className='flex justify-center'>
-            <div className='text-white m-5 sm:m-8 lg:m-14'>
+        <div className='flex justify-center '>
+            <div className='text-white m-5 sm:m-8 lg:m-14 sm:w-full justify-center items-center'>
                 <h1 className='text-2xl sm:text-3xl lg:text-4xl mb-5'>Enrolled Courses</h1>
                 {
                     !courseEnroll ? (
@@ -38,7 +38,7 @@ function EnrolledCourses() {
                                     courseEnroll.map((course, index) => (
                                         <div
                                             key={index}
-                                            className='border border-gray-700 rounded-lg p-8 flex flex-col sm:flex-row items-center gap-4 w-[50vw]'
+                                            className='border border-gray-700 rounded-lg p-8 flex flex-col sm:flex-row items-center gap-4 sm:w-[100vw] md:w-[75vw]'
                                         >
                                             {/* Course Details */}
                                             <Link className='w-full sm:w-[60%] flex flex-col sm:flex-row items-center gap-4'
@@ -47,7 +47,7 @@ function EnrolledCourses() {
                                         ${course?.courseContent?.[0]?.subSection?.[0]?._id}`}>
                                                 <img
                                                     src={course?.thumbNail}
-                                                    className='w-[100px] sm:w-[120px] lg:w-[150px] rounded-lg object-cover'
+                                                    className='w-[100px] sm:w-[150px] lg:w-[150px] rounded-lg object-cover'
                                                     alt="Course Thumbnail"
                                                 />
                                                 <div className='flex flex-col gap-2 text-center sm:text-left'>
@@ -55,9 +55,9 @@ function EnrolledCourses() {
                                                         <span className='text-slate-300'>Course Name:</span> {course?.courseName}
                                                     </p>
                                                     <p className="text-sm sm:text-base">
-                                                        <span className='text-slate-300'>Price:</span> Rs {course?.price}
+                                                        <span className='text-yellow-300'>Free</span> 
                                                     </p>
-                                                    <p className='text-green-500'>Purchased</p>
+                                                    <p><span className='text-red-500'>Description:</span>{course.courseDescription}</p>
                                                 </div>
                                                 {/* <div>duration{course?.totalDuration || 0}</div> */}
                                             </Link>

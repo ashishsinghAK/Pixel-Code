@@ -26,8 +26,8 @@ export const MyCourses = () => {
     fetchCourses();
   }, [])
   return (
-    <div className='text-white'>
-      <div>
+    <div className='text-white w-[75vw]'>
+    
         <div className='flex justify-around m-5'>
           <p className='text-3xl '>My Courses</p>
           <button
@@ -40,7 +40,7 @@ export const MyCourses = () => {
         </div> : (
           <>{courses && <CourseData courses={courses} setCourses={setCourses} />}</>
         )}
-      </div>
+      
     </div>
   )
 }

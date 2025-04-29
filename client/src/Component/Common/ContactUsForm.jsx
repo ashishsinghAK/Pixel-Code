@@ -1,89 +1,71 @@
-import React, { useState, useEffect } from 'react'
-import { useForm } from "react-hook-form"
-import { ApiConnector } from "../../Service/ApiConnector"
-import { contactUsData } from "../../Service/API"
+import React, { useRef } from 'react'
+import emailjs from "@emailjs/browser"
+import toast from 'react-hot-toast';
 
 function ContactUsForm() {
-    const [loading, setLoading] = useState(false);
-    const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm();
+  const service = import.meta.env.VITE_SERVICE_KEY;
+  const template = import.meta.env.VITE_TEMPLATE_KEY;
+  const publickey = import.meta.env.VITE_PUBLIC_KEY;
 
-    const submitContactForm = async (data) => {
-        console.log('logging data', data);
-        try {
-            setLoading(true);
-            const response = await ApiConnector("POST", contactUsData.CONTACT_US_API, data);
-            console.log('response', response);
-            setLoading(false)
-        } catch (error) {
-            console.log(error.message);
-            setLoading(false);
-        }
-    }
+  const form = useRef();
 
-    useEffect(() => {
-        if (isSubmitSuccessful) {
-            reset({
-                email: "",
-                firstname: "",
-                lastname: "",
-                message: "",
-            })
-        }
-    }, [reset, isSubmitSuccessful])
+  const sendEmail = (e) => {
+    e.preventDefault();
+    emailjs.sendForm(service, template, form.current, publickey)
+      .then((result) => {
+        console.log(result.text);
+        e.target.reset();
+        toast.success("Email sent !");
+      }, (error) => {
+        console.log(error.text);
+      });
+  };
 
-    return (
-        <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
-            <form onSubmit={handleSubmit(submitContactForm)} className="flex flex-col gap-5 m-10">
-                <div className="flex gap-5">
-                    {/* First Name */}
-                    <div className="flex flex-col items-start gap-2 w-1/2">
-                        <label htmlFor="firstname">First Name:</label>
-                        <input type="text" id="firstname" name="firstname" placeholder="Enter First Name"
-                            {...register("firstname", { required: true })} 
-                            className="w-full bg-slate-700 h-[2em] rounded-md" />
-                        {errors.firstname && (
-                            <span className="text-red-500 text-sm">Please enter First Name</span>
-                        )}
-                    </div>
+  return (
+    <div className="px-4 sm:px-8 md:px-16 lg:px-32 py-6 text-white flex justify-center items-center min-h-screen">
+      <div className="w-full max-w-3xl">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center text-yellow-400 mb-8">
+          Contact Us
+        </h2>
 
-                    {/* Last Name */}
-                    <div className="flex flex-col items-start gap-2 w-1/2">
-                        <label htmlFor="lastname">Last Name:</label>
-                        <input type="text" id="lastname" name="lastname" placeholder="Enter Last Name"
-                            {...register("lastname")} 
-                            className="w-full bg-slate-700 h-[2em] rounded-md" />
-                    </div>
-                </div>
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col gap-6 bg-gray-900 border border-slate-600 rounded-2xl p-6 sm:p-10 shadow-2xl transition-all"
+        >
+          <input
+            type="text"
+            placeholder="Your Name"
+            name="your_name"
+            required
+            className="p-4 rounded-lg bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-white placeholder-gray-300"
+          />
 
-                {/* Email */}
-                <div className="flex flex-col items-start gap-2">
-                    <label htmlFor="email">Email:</label>
-                    <input type="email" placeholder="Enter Email" id="email" name="email"
-                        {...register("email", { required: true })} 
-                        className="w-full bg-slate-700 h-[2em] rounded-md" />
-                    {errors.email && (
-                        <span className="text-red-500 text-sm">Enter Email Address</span>
-                    )}
-                </div>
+          <input
+            type="email"
+            placeholder="Enter your Email"
+            name="your_email"
+            required
+            className="p-4 rounded-lg bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-white placeholder-gray-300"
+          />
 
-                {/* Message */}
-                <div className="flex flex-col items-start gap-2">
-                    <label htmlFor="message">Message:</label>
-                    <textarea name="message" id="message" cols="30" rows="7" placeholder="Enter your message"
-                        {...register("message", { required: true })} 
-                        className="w-full bg-slate-700 rounded-md" />
-                    {errors.message && (
-                        <span className="text-red-500 text-sm">Enter the Message</span>
-                    )}
-                </div>
+          <textarea
+            name="message"
+            placeholder="Your Message"
+            required
+            className="p-4 rounded-lg bg-slate-700 border border-slate-600 h-40 resize-none focus:outline-none focus:ring-2 focus:ring-yellow-400 text-white placeholder-gray-300"
+          ></textarea>
 
-                {/* Button */}
-                <button type="submit" className="rounded-md bg-yellow-500 text-black font-bold h-[2em] px-4 w-full sm:w-auto">
-                    {loading ? "Sending..." : "Send Message"}
-                </button>
-            </form>
-        </div>
-    )
+          <button
+            type="submit"
+            className="w-full sm:w-fit px-6 py-3 rounded-lg bg-yellow-400 text-slate-900 font-semibold hover:bg-yellow-500 transition-all duration-200 self-center"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default ContactUsForm;

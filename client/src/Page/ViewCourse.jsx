@@ -37,11 +37,9 @@ function ViewCourse() {
     }, []);
 
     return (
-        <div className='flex h-[100vh] items-center'>
-
+        <div className='flex h-[100vh] items-center justify-center'>
             <CourseSideBar />
             <VideoSection/>
-
         </div>
     );
 }

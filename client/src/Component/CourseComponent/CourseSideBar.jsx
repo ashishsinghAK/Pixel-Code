@@ -85,13 +85,13 @@ function CourseSideBar() {
         } md:block text-white h-screen p-4 bg-slate-900 w-[75vw] md:w-[20vw] fixed md:relative z-40 overflow-y-auto`}
       >
         <div>
-          <button
+          {/* <button
             onClick={() => navigate("/dashboard/enrolled-courses")}
             className="flex items-center gap-2 border-2 p-2 text-yellow-500 font-semibold rounded-lg hover:bg-yellow-500 hover:text-slate-900 transition"
           >
             <IoChevronBackCircleSharp size={20} />
             <span>Back</span>
-          </button>
+          </button> */}
 
           <div className="mt-4">
             <h1 className="text-xl font-bold">{courseEntireData?.courseName}</h1>

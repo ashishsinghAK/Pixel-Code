@@ -7,11 +7,11 @@ const MyProfile = () => {
     const navigate = useNavigate()
 
     return (
-        <div className='text-white flex flex-col gap-10 p-5'>
+        <div className='text-white flex flex-col gap-10 w-[77vw]'>
             <h1 className='text-3xl sm:text-4xl font-bold text-blue-500 font-mono'>My Profile</h1>
             <div className='flex flex-col gap-5'>
 
-                <div className='flex flex-col sm:flex-row items-center gap-5 bg-yellow-500 w-full sm:w-[60vw] p-5 rounded-xl text-black font-bold'>
+                <div className='flex flex-col sm:flex-row items-center gap-5 bg-yellow-500 w-full  p-5 rounded-xl text-black font-bold'>
                     <img src={user?.image} alt={`profile-${user?.firstName}`} 
                         className='aspect-square w-[78px] sm:w-[100px] rounded-full object-cover' />
                     <div className='flex flex-col text-center sm:text-left'>
@@ -24,7 +24,7 @@ const MyProfile = () => {
                 </div>
 
                 <div className='flex flex-col sm:flex-row justify-between items-center p-5 bg-yellow-500 rounded-xl text-black font-bold
-                w-full sm:w-[60vw]'>
+                w-full '>
                     <div className='flex flex-col text-center sm:text-left'>
                         <p>About</p>
                         <p className='text-slate-700'>{detail?.about ?? "Write Something about yourself..."}</p>
@@ -35,7 +35,7 @@ const MyProfile = () => {
                     </button>
                 </div>
 
-                <div className='flex flex-col gap-5 bg-yellow-500 rounded-xl text-black font-bold p-5 w-full sm:w-[60vw]'>
+                <div className='flex flex-col gap-5 bg-yellow-500 rounded-xl text-black font-bold p-5 w-full '>
                     <div className='flex justify-between items-center'>
                         <h1 className='text-xl sm:text-2xl'>Personal Details:</h1>
                         <button className='bg-slate-600 rounded-md p-3 text-white w-[4em]'
@@ -53,7 +53,7 @@ const MyProfile = () => {
                             <span className='ml-1'>{user?.lastName}</span>
                         </div>
                     </div>
-                    <div className='flex flex-col sm:flex-row justify-between w-full sm:w-[45vw] gap-3'>
+                    <div className='flex flex-col sm:flex-col justify-between w-full sm:w-[45vw] gap-3'>
                         <div className='flex flex-col sm:flex-row'>
                             <p className='text-red-800'>Email: </p>
                             <span className='ml-1'>{user?.email}</span>
