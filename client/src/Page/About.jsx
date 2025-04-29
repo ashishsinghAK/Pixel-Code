@@ -6,6 +6,7 @@ import about3 from "../Media/about3.jpg";
 import Section_3 from "../Component/About/Section_3";
 
 function About() {
+  
   return (
     <div className='text-white flex flex-col items-center w-full'>
 
