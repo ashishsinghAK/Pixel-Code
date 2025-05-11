@@ -174,7 +174,7 @@ const InstructorDashboard = () => {
                                     <div className='flex flex-col border p-5 rounded-lg items-center'>
                                         <img src={course?.thumbNail} className='w-48 h-24 object-cover mb-4' alt="Course Thumbnail" />
                                         <p>Name: {course?.courseName}</p>
-                                        <p>Price: Rs {course?.price}</p>
+                                        
                                     </div>
                                 ))
                             ) : (

@@ -41,8 +41,8 @@ const Home = () => {
           <CTAButton active={false} linkto="/login">Book a Demo</CTAButton>
         </div>
 
-        <div className='shadow-blue-200 my-8 w-full'>
-          <video muted loop autoPlay className='w-full h-auto rounded-md'>
+        <div className='flex justify-center w-full my-8'>
+          <video muted loop autoPlay className='w-full lg:w-[60vw] h-auto rounded-md shadow-blue-200'>
             <source src={video} type="video/mp4" />
           </video>
         </div>
@@ -89,7 +89,7 @@ const Home = () => {
       {/* section 3 */}
       <div className='flex flex-col m-5 items-center'>
         <InstructorSection />
-        <p className='text-2xl sm:text-3xl text-slate-300 mt-6'>Review from other Learners</p>
+        
         {/* review slider */}
       </div>
 

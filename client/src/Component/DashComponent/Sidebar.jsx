@@ -55,7 +55,7 @@ function Sidebar() {
 
       {/* Sidebar */}
       <div
-        className={`fixed h-full transition-transform duration-300 bg-slate-900 p-5
+        className={`fixed h-[100vh] transition-transform duration-300 bg-slate-900 p-5
           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
           lg:translate-x-0 lg:w-60 w-[75%] sm:w-[50%] z-20`}
       >

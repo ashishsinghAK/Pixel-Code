@@ -6,6 +6,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { logout } from '../../Service/authAPI';
 import { getCourseCategory } from '../../Service/courseDetailAPI';
 import { ProfileDropdown } from '../Auth/ProfileDropdown';
+import Logo from "../../Media/Logo.png"
 
 const NavBar = () => {
   const { token } = useSelector((state) => state.auth);
@@ -38,7 +39,10 @@ const NavBar = () => {
     <nav className="bg-slate-900 text-white">
       <div className="w-11/12 mx-auto flex justify-between items-center h-14">
         {/* Logo */}
-        <Link to="/" className="text-xl font-bold">Logo</Link>
+        <Link to="/" className="text-xl font-bold">
+        <img src={Logo} alt="" className='w-24'/>
+        
+        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-8 items-center font-semibold">

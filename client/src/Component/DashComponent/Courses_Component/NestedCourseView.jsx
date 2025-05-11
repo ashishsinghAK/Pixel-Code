@@ -48,7 +48,7 @@ function NestedCourseView() {
   }
 
   return (
-    <div className='w-[50vw]'>
+    <div className='sm:w-[70vw] lg:w-[50vw]'>
       {loading === true ? <Spinner className="text-center"/> :
         <div className='bg-slate-700 rounded-lg p-6 m-5 '>
           {course?.courseContent?.map((section) => (

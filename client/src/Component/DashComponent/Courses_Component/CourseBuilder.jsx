@@ -48,9 +48,9 @@ function CourseBuilder() {
         setLoading(false);
     }
     return (
-        <div className='p-10 flex items-center flex-col'>
+        <div className='p-10 flex items-center flex-col lg:w-[50vw] sm:w-[80vw]'>
             <p className='text-3xl mb-5'>Course Builder</p>
-            <form action="" className="flex flex-col gap-5 w-[50vw] p-5 bg-gray-900 rounded-lg shadow-md"
+            <form action="" className="flex flex-col gap-5 lg:w-[50vw] sm:w-[80vw] p-5 bg-gray-900 rounded-lg shadow-md"
                 onSubmit={handleSubmit(submitHandler)}>
                 <div className='flex flex-col'>
                     <label htmlFor="sectionName">Add Section<sup className="text-red-500">*</sup></label>

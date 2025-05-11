@@ -53,7 +53,7 @@ function SubSectionModal(
 
 
     return (
-        <div className=' bg-slate-900 p-2 flex flex-col gap-10'>
+        <div className=' bg-slate-900 p-2 flex flex-col gap-10 max-md:w-[65vw] sm:mr-10'>
             <div className='flex justify-between'>
                 <p className='text-3xl font-semibold text-orange-500 font-mono'>Adding Lecture</p>
                 <button onClick={() => (!loading ? setModalData(null) : {})}><RxCross2 className='text-xl font-semibold' /></button>
@@ -62,7 +62,7 @@ function SubSectionModal(
                 loading ? (<div className="flex justify-center items-center">
                     <Spinner />
                 </div>) : (
-                    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5'>
+                    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5 max-sm:w-[65vw]'>
                         <div className='flex flex-col'>
                             <label htmlFor="lectureVideo" className='text-slate-300'>Select Course Video</label>
                             <input type="file"

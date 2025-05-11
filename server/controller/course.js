@@ -12,12 +12,12 @@ require('dotenv').config();
 exports.createCourse = async (req, res) => {
     try {
         //fetch data
-        const { courseName, courseDescription, whatYouWillLearn, price, categoryId, tag } = req.body;
+        const { courseName, courseDescription, whatYouWillLearn, categoryId, tag } = req.body;
         //get thumbnail 
         const thumbnail = req.files.thumbNail;
 
         //validation
-        if (!courseName || !courseDescription || !whatYouWillLearn || !price || !categoryId || !thumbnail) {
+        if (!courseName || !courseDescription || !whatYouWillLearn || !categoryId || !thumbnail) {
             return res.status(401).json({
                 success: false,
                 message: "All fields are mandatory"
@@ -67,7 +67,6 @@ exports.createCourse = async (req, res) => {
             //here instructor ki object id insert ki gyi hai
             instructor: instructorDetail._id,
             whatYouWillLearn: whatYouWillLearn,
-            price,
             //here tag ki object id insert ki gyi hai
             category: categoryDetail._id,
             thumbNail: thumbnailImage.secure_url,
