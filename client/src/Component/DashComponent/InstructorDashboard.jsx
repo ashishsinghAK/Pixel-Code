@@ -104,8 +104,9 @@ const InstructorDashboard = () => {
         <div className='p-5 w-full md:w-[75vw] rounded-3xl bg-slate-950'>
             <div className='text-white text-center flex flex-col gap-10 w-full md:w-[80vw] mx-auto'>
                 <p className='flex items-center gap-2 ml-4 md:ml-14'>
-                    <span className='font-semibold'>Hi,</span>
-                    <span className='text-yellow-500 text-2xl font-semibold'>{user?.firstName}</span>
+                    <span className='font-semibold'>Dear Instructor,</span>
+                    <span className='text-yellow-500 text-2xl font-semibold'>{user?.firstName} </span>
+                    <span>Here is your Detailed Dashboard</span>
                 </p>
 
                 {loading ? (
@@ -126,14 +127,14 @@ const InstructorDashboard = () => {
                             )}
 
                             <div className='flex flex-col md:flex-row justify-evenly gap-5 w-full'>
-                                <div className='flex flex-col gap-3 w-full md:w-[40%]'>
+                                {/* <div className='flex flex-col gap-3 w-full md:w-[40%]'>
                                     <p className='text-3xl font-bold'>Income Chart</p>
                                     <div className='border p-5 border-blue-400 rounded-2xl'>
                                         <div className='h-[50vh]'>
                                             <PolarArea data={chartDataIncome} options={polarOption} />
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 {/* Detail */}
                                 <div className='flex flex-col gap-5 w-full md:w-[40%]'>
@@ -147,10 +148,10 @@ const InstructorDashboard = () => {
                                             <p className='text-slate-400'>Total Students</p>
                                             <p className='text-3xl'>{totalStudent}</p>
                                         </span>
-                                        <span>
+                                        {/* <span>
                                             <p className='text-slate-400'>Total Income</p>
                                             <p className='text-3xl'>Rs {totalAmount}</p>
-                                        </span>
+                                        </span> */}
                                     </div>
                                 </div>
                             </div>

@@ -40,8 +40,8 @@ const NavBar = () => {
       <div className="w-11/12 mx-auto flex justify-between items-center h-14">
         {/* Logo */}
         <Link to="/" className="text-xl font-bold">
-        <img src={Logo} alt="" className='w-24'/>
-        
+        {/* <img src={Logo} alt="" className='w-24'/> */}
+        Pixel-Code
         </Link>
 
         {/* Desktop Menu */}

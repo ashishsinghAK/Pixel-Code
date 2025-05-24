@@ -185,28 +185,31 @@ export function UpdateDetail(dateOfBirth, about, contactNumber, gender,token, na
 
 
 
-export function DeleteProfile(token,navigate) {
+export function DeleteProfile(token, navigate) {
     return async (dispatch) => {
-        dispatch(setLoading(true))
+        dispatch(setLoading(true));
+
         try {
-            const response = await ApiConnector("DELETE", dashboard.DELETE_API,{token})
+            const response = await ApiConnector("DELETE", dashboard.DELETE_API, { token });
+
             if (!response.data.success) {
-                throw new Error("Profile deleteion failed");
+                throw new Error("Profile deletion failed");
             }
 
-                dispatch(setToken(null))
-                dispatch(setUser(null))
-                dispatch(setDetail(null))
-                localStorage.removeItem('token', token)
-                localStorage.removeItem('user')
-                toast.success("Profile deletion Successfull");
-                console.log("Navigating to home");
-                navigate("/")
+            // Clear user data from Redux and localStorage
+            dispatch(setToken(null));
+            dispatch(setUser(null));
+            dispatch(setDetail(null));
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
 
+            toast.success("Profile deleted successfully");
+            navigate("/");
         } catch (error) {
-            console.log("Profile deletion failed");
-            console.log(error.message);
-            toast.error("error occured")
+            console.log("Profile deletion failed", error);
+            toast.error(error?.response?.data?.message || "An error occurred while deleting profile");
+        } finally {
+            dispatch(setLoading(false));
         }
-    }
+    };
 }
